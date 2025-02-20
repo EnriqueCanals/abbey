@@ -19,12 +19,13 @@ servers:
 # Note: If using Cloudflare, set encryption mode in SSL/TLS setting to "Full" to enable CF-to-app encryption.
 proxy:
   ssl: true
-  host: capotej.com
+  host: enriquecanals.com
 
 logging:
   driver: awslogs
   options:
     awslogs-group: /ec2/rails
+    awslogs-create-group: "true"
 # Credentials for your image host.
 registry:
   # Specify the registry server, if you're not using Docker Hub
