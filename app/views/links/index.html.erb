@@ -14,15 +14,35 @@ Interesting Links | <%= Rails.application.config.site_name %>
 
 <div class="max-w-3xl mx-auto">
   <header class="mb-8 bg-memphis-cyan dark:bg-memphis-purple text-memphis-ink dark:text-memphis-paper border-[3px] border-memphis-ink shadow-retro p-6 rotate-1">
-    <p class="font-display text-[10px] uppercase tracking-widest text-memphis-pink dark:text-memphis-yellow mb-2">// bookmarks</p>
-    <h1 class="h-display-lg" style="text-shadow: 3px 3px 0 #0d0d12">
-      Interesting Links
-    </h1>
-    <p class="font-mono text-xl mt-2">&gt; stuff worth your eyeballs<span class="animate-blink">_</span></p>
+    <div class="flex items-start justify-between gap-4">
+      <div>
+        <p class="font-display text-[10px] uppercase tracking-widest text-memphis-pink dark:text-memphis-yellow mb-2">// bookmarks</p>
+        <h1 class="h-display-lg" style="text-shadow: 3px 3px 0 #0d0d12">
+          Interesting Links
+        </h1>
+        <p class="font-mono text-xl mt-2">&gt; stuff worth your eyeballs<span class="animate-blink">_</span></p>
+      </div>
+      <% if @links.any? && authenticated? %>
+        <%= link_to "+ link", new_link_path,
+            class: "shrink-0 font-display text-[10px] uppercase tracking-widest px-3 py-2 bg-memphis-yellow text-memphis-ink border-[3px] border-memphis-ink shadow-retro-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all" %>
+      <% end %>
+    </div>
   </header>
 
-  <div class="space-y-6">
-    <%= render @links %>
-  </div>
-  <div class="pt-4"><%= paginate @links %></div>
+  <% if @links.any? %>
+    <div class="space-y-6">
+      <%= render @links %>
+    </div>
+    <div class="pt-4"><%= paginate @links %></div>
+  <% else %>
+    <div class="text-center py-12 bg-memphis-paper dark:bg-memphis-crt border-[3px] border-dashed border-memphis-ink dark:border-memphis-mint">
+      <p class="font-mono text-lg text-memphis-ink dark:text-memphis-paper">// no bookmarks on file yet</p>
+      <% if authenticated? %>
+        <div class="mt-4">
+          <%= link_to "+ add your first link", new_link_path,
+              class: "inline-block font-display text-[10px] uppercase tracking-widest px-3 py-2 bg-memphis-pink text-memphis-paper border-[3px] border-memphis-ink shadow-retro-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all" %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 </div>

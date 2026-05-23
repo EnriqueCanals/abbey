@@ -22,8 +22,15 @@ class LinksController < ApplicationController
   end
 
   def create
-    link = Link.create! link_params
-    redirect_to links_path
+    url = link_params[:url]
+
+    # Check if the URL points to a PDF and create a paper if it does
+    paper = PdfPaperCreator.create_from_url(url)
+    if paper
+      redirect_to papers_path
+    else
+      create_link
+    end
   end
 
   def update
@@ -31,7 +38,7 @@ class LinksController < ApplicationController
     if @link.update(link_params)
       redirect_to links_path
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 
@@ -44,5 +51,14 @@ class LinksController < ApplicationController
   private
     def link_params
       params.expect(link: [ :title, :description, :url ])
+    end
+
+    def create_link
+      @link = Link.new(link_params)
+      if @link.save
+        redirect_to links_path
+      else
+        render :new, status: :unprocessable_content
+      end
     end
 end

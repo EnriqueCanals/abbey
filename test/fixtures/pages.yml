@@ -1,7 +1,14 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+about:
+  title: About
+  slug: about
+  markdown_body: This is the about page.
 
-one:
-  slug: MyString
+projects:
+  title: Projects
+  slug: projects
+  markdown_body: Here are my projects.
 
-two:
-  slug: MyString
+presentations:
+  title: Presentations
+  slug: presentations
+  markdown_body: Conference talks and presentations.

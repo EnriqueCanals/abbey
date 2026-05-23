@@ -1,13 +1,15 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+ruby_news:
+  guid: ruby-news-1
+  title: Ruby 3.4 Released
+  summary: Ruby 3.4 comes with new features.
+  url: https://rubylang.org/news/ruby-3-4
+  published_at: <%= 2.days.ago %>
+  promoted: false
 
-one:
-  guid: MyString
-  summary: MyString
-  url: MyString
-  title: MyString
-
-two:
-  guid: MyString
-  summary: MyString
-  url: MyString
-  title: MyString
+github_news:
+  guid: github-news-1
+  title: GitHub Copilot Updates
+  summary: New Copilot features announced.
+  url: https://github.blog/copilot-updates
+  published_at: <%= 1.day.ago %>
+  promoted: false

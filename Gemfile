@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.0.1"
+gem "rails", "~> 8.1.1"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
 # Use sqlite3 as the database for Active Record
@@ -49,6 +49,10 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  gem "ruby-lsp"
+
+  gem "erb_lint", require: false
 end
 
 group :development do
@@ -59,21 +63,22 @@ end
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
-  gem "selenium-webdriver"
+  gem "capybara-playwright-driver"
+  gem "webmock"
 end
 
-gem "tailwindcss-rails", "3.3.1"
+gem "tailwindcss-rails", "~> 4.0"
 
 gem "kaminari", "~> 1.2"
 
-gem "rouge", "~> 4.5"
+gem "rouge", "~> 4.6"
 
 gem "redcarpet", "~> 3.6"
 
-gem "metainspector", "~> 5.15"
+gem "metainspector", "~> 5.16"
 
-gem "net-smtp", "0.5.0"
+gem "net-smtp", "0.5.1"
 
-gem "feedjira", "~> 3.2"
+gem "feedjira", "~> 4.0"
 
 gem "faraday-http-cache", "~> 2.5"

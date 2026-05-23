@@ -34,9 +34,9 @@ module.exports = {
         }
       },
       fontFamily: {
-        sans: ['"Space Grotesk"', ...defaultTheme.fontFamily.sans],
-        mono: ['"VT323"', 'ui-monospace', 'monospace'],
-        display: ['"Press Start 2P"', 'system-ui', 'sans-serif'],
+        sans:     ['"Space Grotesk"', ...defaultTheme.fontFamily.sans],
+        mono:     ['"VT323"', 'ui-monospace', 'monospace'],
+        display:  ['"Press Start 2P"', 'system-ui', 'sans-serif'],
         terminal: ['"VT323"', 'ui-monospace', 'monospace']
       },
       boxShadow: {
@@ -82,8 +82,7 @@ module.exports = {
         }
       }
     }
-  },
-  plugins: [
-    require('@tailwindcss/forms')
-  ]
+  }
+  // Plugins (forms, typography) are now registered via @plugin directives in
+  // app/assets/tailwind/application.css per Tailwind v4 conventions.
 }

@@ -24,9 +24,17 @@
             ["About",         "/p/about"],
             ["Presentations", "/p/presentations"],
             ["Projects",      "/p/projects"],
-            ["Links",         links_path]
+            ["Links",         links_path],
+            ["Papers",        papers_path]
           ] %>
-        <% nav_colors = ['bg-memphis-pink text-memphis-paper', 'bg-memphis-cyan text-memphis-ink', 'bg-memphis-yellow text-memphis-ink', 'bg-memphis-mint text-memphis-ink', 'bg-memphis-purple text-memphis-paper'] %>
+        <% nav_colors = [
+          'bg-memphis-pink text-memphis-paper',
+          'bg-memphis-cyan text-memphis-ink',
+          'bg-memphis-yellow text-memphis-ink',
+          'bg-memphis-mint text-memphis-ink',
+          'bg-memphis-purple text-memphis-paper',
+          'bg-memphis-coral text-memphis-paper'
+        ] %>
         <% nav_items.each_with_index do |(label, path), idx| %>
           <% active = current_page?(path) %>
           <%= link_to label, path,

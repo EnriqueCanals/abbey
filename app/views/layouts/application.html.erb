@@ -14,8 +14,7 @@
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22 shape-rendering=%22crispEdges%22><rect width=%2216%22 height=%2216%22 fill=%22%23ff3eb5%22/><rect x=%222%22 y=%222%22 width=%2212%22 height=%2212%22 fill=%22%23ffd400%22/><rect x=%224%22 y=%224%22 width=%228%22 height=%228%22 fill=%22%2300e5ff%22/><rect x=%226%22 y=%226%22 width=%224%22 height=%224%22 fill=%22%230d0d12%22/></svg>">
 
-    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
-    <%= stylesheet_link_tag "highlight", "data-turbo-track": "reload" %>
+    <%# `:app` includes everything in app/assets/stylesheets and app/assets/builds (tailwind + highlight + application). %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
@@ -26,12 +25,16 @@
       <main class="container mx-auto px-4 py-8 max-w-5xl content-layer flex-1">
         <%= yield %>
       </main>
-        <%= javascript_tag do %>
+        <script>
+//<![CDATA[
+
           window.toggleDarkMode = function() {
             const isDark = document.documentElement.classList.toggle('dark');
             document.cookie = `dark_mode=${isDark}; path=/; max-age=31536000`;
           }
-        <% end %>
+
+//]]>
+</script>
     </div>
     <%= render "shared/footer" %>
   </body>

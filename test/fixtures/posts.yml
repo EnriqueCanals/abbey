@@ -1,11 +1,30 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+hello_world:
   draft: false
-  content: MyText
-  title: MyString
+  title: Hello World
+  markdown_body: |
+    This is my first post. Welcome to the blog!
+  markdown_excerpt: Welcome to the blog.
+  slug: hello-world
+  created_at: <%= 10.days.ago %>
+  updated_at: <%= 10.days.ago %>
 
-two:
+about_rails:
   draft: false
-  content: MyText
-  title: MyString
+  title: About Rails
+  markdown_body: |
+    Ruby on Rails is a web application framework.
+  markdown_excerpt: Ruby on Rails is a great framework.
+  slug: about-rails
+  created_at: <%= 5.days.ago %>
+  updated_at: <%= 5.days.ago %>
+
+draft_post:
+  draft: true
+  title: Draft Post
+  markdown_body: This is a draft that should not appear publicly.
+  markdown_excerpt: Draft excerpt.
+  slug: draft-post
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>

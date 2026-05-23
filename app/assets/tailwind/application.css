@@ -1,8 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@config '../../../config/tailwind.config.js';
+
+/*
+  Tailwind v4 default border colour changed to currentcolor. Restore the v3
+  grey-200 default so existing borders keep looking the same.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
+
 
 /* ------------------------------------------------------------------
    Memphis / 8-bit base
@@ -168,17 +186,26 @@
            hover:-rotate-2 hover:scale-105;
   }
 
-  /* Headings — pixel display */
-  .h-display {
+  /* Headings — pixel display
+     Tailwind v4 forbids `@apply` against custom component classes, so the
+     base h-display rules are inlined in each size variant rather than chained
+     through `@apply h-display`. */
+  .h-display,
+  .h-display-sm,
+  .h-display-md,
+  .h-display-lg {
     @apply font-display text-memphis-ink dark:text-memphis-mint
            leading-[1.4] tracking-tight;
     text-shadow: 3px 3px 0 #ff3eb5;
   }
-  html.dark .h-display { text-shadow: 3px 3px 0 #00e5ff; }
+  html.dark .h-display,
+  html.dark .h-display-sm,
+  html.dark .h-display-md,
+  html.dark .h-display-lg { text-shadow: 3px 3px 0 #00e5ff; }
 
-  .h-display-sm  { @apply h-display text-base sm:text-lg; }
-  .h-display-md  { @apply h-display text-xl sm:text-2xl; }
-  .h-display-lg  { @apply h-display text-2xl sm:text-3xl md:text-4xl; }
+  .h-display-sm  { @apply text-base sm:text-lg; }
+  .h-display-md  { @apply text-xl sm:text-2xl; }
+  .h-display-lg  { @apply text-2xl sm:text-3xl md:text-4xl; }
 
   /* Blinking terminal cursor */
   .cursor-blink::after {
