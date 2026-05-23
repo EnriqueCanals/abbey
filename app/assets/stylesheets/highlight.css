@@ -1,119 +1,97 @@
+/* ------------------------------------------------------------------
+   Retro Terminal — Rouge syntax theme
+   8-bit / Memphis era CRT colors
+------------------------------------------------------------------- */
+
 .highlight {
   width: 100%;
   overflow-x: auto;
   max-width: none;
-  
-  pre {
-    white-space: pre;
-    overflow-x: auto;
-    padding: 1rem;
-    width: 100%;
-  }
-  
-  code {
-    font-family: ui-monospace, monospace;
-  }
 }
-code:not(.highlight code) {
-  background-color: #f1f1f1;
-  padding: 0.2em 0.4em;
-  border-radius: 3px;
-  font-family: ui-monospace, monospace;
-  font-size: 0.9em;
+.highlight pre {
+  white-space: pre;
+  overflow-x: auto;
+  width: 100%;
+}
+.highlight code {
+  font-family: 'VT323', ui-monospace, monospace;
+  font-size: 1em;
+  letter-spacing: 0.02em;
 }
 
-/* Dark mode */
-.dark code:not(.highlight code) {
-  background-color: #2d2d2d;
-}
 .highlight table td { padding: 5px; }
 .highlight table pre { margin: 0; }
-.highlight, .highlight .w {
-  color: #d8d8d8;
-  background-color: #181818;
+
+/* Base */
+.highlight,
+.highlight .w {
+  color: #d6ffe9;
+  background-color: transparent;
 }
+
 .highlight .err {
-  color: #181818;
-  background-color: #ab4642;
+  color: #fff8ef;
+  background-color: #ff3eb5;
 }
-.highlight .c, .highlight .ch, .highlight .cd, .highlight .cm, .highlight .cpf, .highlight .c1, .highlight .cs {
-  color: #585858;
-}
-.highlight .cp {
-  color: #f7ca88;
-}
-.highlight .nt {
-  color: #f7ca88;
-}
-.highlight .o, .highlight .ow {
-  color: #d8d8d8;
-}
-.highlight .p, .highlight .pi {
-  color: #d8d8d8;
-}
-.highlight .gi {
-  color: #a1b56c;
-}
-.highlight .gd {
-  color: #ab4642;
-}
-.highlight .gh {
-  color: #7cafc2;
-  background-color: #181818;
-  font-weight: bold;
-}
-.highlight .ge {
+
+/* Comments — dim mint */
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cm,
+.highlight .cpf, .highlight .c1, .highlight .cs {
+  color: #5da78a;
   font-style: italic;
 }
-.highlight .ges {
-  font-weight: bold;
-  font-style: italic;
-}
-.highlight .gs {
-  font-weight: bold;
-}
+.highlight .cp { color: #ffd400; }
+
+/* Operators, punctuation */
+.highlight .o, .highlight .ow { color: #ff6b4a; }
+.highlight .p, .highlight .pi { color: #d6ffe9; }
+
+/* Diffs */
+.highlight .gi { color: #00ff9c; }
+.highlight .gd { color: #ff3eb5; }
+.highlight .gh { color: #00e5ff; font-weight: bold; }
+.highlight .ge { font-style: italic; }
+.highlight .ges { font-weight: bold; font-style: italic; }
+.highlight .gs { font-weight: bold; }
+
+/* Keywords — hot pink */
 .highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
-  color: #ba8baf;
+  color: #ff3eb5;
+  font-weight: 700;
 }
-.highlight .kc {
-  color: #dc9656;
+.highlight .kc { color: #b14aff; }
+.highlight .kt { color: #00e5ff; }
+.highlight .kd { color: #b14aff; }
+
+/* Strings — yellow */
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .dl,
+.highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+  color: #ffd400;
 }
-.highlight .kt {
-  color: #dc9656;
+.highlight .sa { color: #ff3eb5; }
+.highlight .sr { color: #00e5ff; }
+.highlight .si { color: #ff6b4a; }
+.highlight .se { color: #ff6b4a; }
+
+/* Names */
+.highlight .nn { color: #00e5ff; }
+.highlight .nc { color: #00e5ff; font-weight: 700; }
+.highlight .no { color: #ffd400; }
+.highlight .na { color: #ffd400; }
+.highlight .nf { color: #00ff9c; font-weight: 700; }
+.highlight .nb { color: #b14aff; }
+.highlight .ne { color: #ff3eb5; }
+.highlight .nv, .highlight .vc, .highlight .vg, .highlight .vi { color: #ff6b4a; }
+.highlight .nt { color: #ff3eb5; }
+
+/* Numbers */
+.highlight .m, .highlight .mb, .highlight .mf, .highlight .mh,
+.highlight .mi, .highlight .il, .highlight .mo, .highlight .mx {
+  color: #00e5ff;
 }
-.highlight .kd {
-  color: #dc9656;
-}
-.highlight .s, .highlight .sb, .highlight .sc, .highlight .dl, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
-  color: #a1b56c;
-}
-.highlight .sa {
-  color: #ba8baf;
-}
-.highlight .sr {
-  color: #86c1b9;
-}
-.highlight .si {
-  color: #a16946;
-}
-.highlight .se {
-  color: #a16946;
-}
-.highlight .nn {
-  color: #f7ca88;
-}
-.highlight .nc {
-  color: #f7ca88;
-}
-.highlight .no {
-  color: #f7ca88;
-}
-.highlight .na {
-  color: #7cafc2;
-}
-.highlight .m, .highlight .mb, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mx {
-  color: #a1b56c;
-}
-.highlight .ss {
-  color: #a1b56c;
-}
+
+/* Symbols */
+.highlight .ss { color: #ffd400; }
+
+/* Line numbers, if present */
+.highlight .gl, .highlight .lineno { color: #5da78a; opacity: 0.7; }
