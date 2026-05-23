@@ -1,97 +1,80 @@
-/* ------------------------------------------------------------------
-   Retro Terminal — Rouge syntax theme
-   8-bit / Memphis era CRT colors
-------------------------------------------------------------------- */
+/* ==================================================================
+   Grimoire — Rouge syntax theme
+   ------------------------------------------------------------------
+   The wizard's terminal: phosphor green base, gold sigils for
+   keywords, blood-red for strings (literal incantations), ember
+   for comments (footnotes from the necromancer).
+================================================================== */
 
-.highlight {
-  width: 100%;
-  overflow-x: auto;
-  max-width: none;
-}
-.highlight pre {
-  white-space: pre;
-  overflow-x: auto;
-  width: 100%;
-}
-.highlight code {
-  font-family: 'VT323', ui-monospace, monospace;
-  font-size: 1em;
-  letter-spacing: 0.02em;
+pre.highlight, .highlight pre {
+  background: #07080d !important;
+  color: #57f287;
 }
 
-.highlight table td { padding: 5px; }
-.highlight table pre { margin: 0; }
-
-/* Base */
-.highlight,
-.highlight .w {
-  color: #d6ffe9;
-  background-color: transparent;
-}
-
-.highlight .err {
-  color: #fff8ef;
-  background-color: #ff3eb5;
-}
-
-/* Comments — dim mint */
+/* Comments — the necromancer's marginalia */
 .highlight .c, .highlight .ch, .highlight .cd, .highlight .cm,
-.highlight .cpf, .highlight .c1, .highlight .cs {
-  color: #5da78a;
-  font-style: italic;
-}
-.highlight .cp { color: #ffd400; }
+.highlight .cpf, .highlight .c1, .highlight .cs { color: #f08029; font-style: italic; opacity: 0.85; }
+.highlight .cp { color: #f08029; font-weight: 700; }
 
-/* Operators, punctuation */
-.highlight .o, .highlight .ow { color: #ff6b4a; }
-.highlight .p, .highlight .pi { color: #d6ffe9; }
+/* Errors — broken sigils */
+.highlight .err { color: #ff5a5f; background: rgba(255,90,95,0.12); }
 
-/* Diffs */
-.highlight .gi { color: #00ff9c; }
-.highlight .gd { color: #ff3eb5; }
-.highlight .gh { color: #00e5ff; font-weight: bold; }
-.highlight .ge { font-style: italic; }
-.highlight .ges { font-weight: bold; font-style: italic; }
-.highlight .gs { font-weight: bold; }
+/* Keywords — true names */
+.highlight .k, .highlight .kc, .highlight .kd, .highlight .kn,
+.highlight .kp, .highlight .kr, .highlight .kv { color: #c8a44d; font-weight: 700; }
+.highlight .kt { color: #c8a44d; }
 
-/* Keywords — hot pink */
-.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
-  color: #ff3eb5;
-  font-weight: 700;
-}
-.highlight .kc { color: #b14aff; }
-.highlight .kt { color: #00e5ff; }
-.highlight .kd { color: #b14aff; }
-
-/* Strings — yellow */
-.highlight .s, .highlight .sb, .highlight .sc, .highlight .dl,
-.highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
-  color: #ffd400;
-}
-.highlight .sa { color: #ff3eb5; }
-.highlight .sr { color: #00e5ff; }
-.highlight .si { color: #ff6b4a; }
-.highlight .se { color: #ff6b4a; }
+/* Operators / punctuation */
+.highlight .o, .highlight .ow { color: #c8a44d; }
+.highlight .p { color: #e9e0c8; }
 
 /* Names */
-.highlight .nn { color: #00e5ff; }
-.highlight .nc { color: #00e5ff; font-weight: 700; }
-.highlight .no { color: #ffd400; }
-.highlight .na { color: #ffd400; }
-.highlight .nf { color: #00ff9c; font-weight: 700; }
-.highlight .nb { color: #b14aff; }
-.highlight .ne { color: #ff3eb5; }
-.highlight .nv, .highlight .vc, .highlight .vg, .highlight .vi { color: #ff6b4a; }
-.highlight .nt { color: #ff3eb5; }
+.highlight .n   { color: #e9e0c8; }
+.highlight .na  { color: #c8a44d; }
+.highlight .nb  { color: #c8a44d; }
+.highlight .nc  { color: #f08029; font-weight: 700; }
+.highlight .no  { color: #c8a44d; }
+.highlight .nd  { color: #f08029; }
+.highlight .ne  { color: #ff5a5f; font-weight: 700; }
+.highlight .nf  { color: #57f287; font-weight: 700; }
+.highlight .nl  { color: #c8a44d; }
+.highlight .nn  { color: #e9e0c8; }
+.highlight .py  { color: #c8a44d; }
+.highlight .nt  { color: #f08029; font-weight: 700; }
+.highlight .nv, .highlight .vc, .highlight .vg, .highlight .vi { color: #c8a44d; }
+
+/* Literals */
+.highlight .l   { color: #57f287; }
+.highlight .ld  { color: #57f287; }
+
+/* Strings — literal incantations */
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .dl,
+.highlight .sd, .highlight .s2, .highlight .se, .highlight .sh,
+.highlight .si, .highlight .sx, .highlight .sr, .highlight .s1,
+.highlight .ss { color: #ff8d97; }
 
 /* Numbers */
 .highlight .m, .highlight .mb, .highlight .mf, .highlight .mh,
-.highlight .mi, .highlight .il, .highlight .mo, .highlight .mx {
-  color: #00e5ff;
+.highlight .mi, .highlight .il, .highlight .mo, .highlight .mx { color: #f08029; }
+
+/* Diff */
+.highlight .gd { color: #ff5a5f; background: rgba(255,90,95,0.10); }
+.highlight .gi { color: #57f287; background: rgba(87,242,135,0.10); }
+
+/* Generic */
+.highlight .ge { font-style: italic; }
+.highlight .gh { color: #c8a44d; font-weight: 700; }
+.highlight .gs { font-weight: 700; }
+.highlight .gu { color: #f08029; font-weight: 700; }
+.highlight .gp { color: #c8a44d; }
+.highlight .gt { color: #ff5a5f; }
+.highlight .gl { color: #e9e0c8; }
+
+/* Line numbers */
+.highlight .lineno, .highlight .gh.filename {
+  color: #6a4cab;
+  border-right: 1px solid rgba(200,164,77,0.25);
+  padding-right: .55em;
+  margin-right: .55em;
+  user-select: none;
 }
-
-/* Symbols */
-.highlight .ss { color: #ffd400; }
-
-/* Line numbers, if present */
-.highlight .gl, .highlight .lineno { color: #5da78a; opacity: 0.7; }

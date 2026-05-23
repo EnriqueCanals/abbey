@@ -3,26 +3,28 @@
 <% end %>
 
 <% content_for :rss_button do %>
-  <%= link_to links_feed_path, class: "btn-icon-retro", aria: { label: "RSS Feed" } do %>
-    <%= render "shared/icons/rss" %>
+  <%= link_to links_feed_path, class: "icon-rune", aria: { label: "Auguries (RSS)" } do %>
+    <svg viewBox="0 0 16 16" class="w-4 h-4" fill="currentColor"><path d="M2 12.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0zM2 6.5a.5.5 0 0 1 .5-.5 7.5 7.5 0 0 1 7.5 7.5.5.5 0 0 1-1 0A6.5 6.5 0 0 0 2.5 7a.5.5 0 0 1-.5-.5zM2 2.5A.5.5 0 0 1 2.5 2a11.5 11.5 0 0 1 11.5 11.5.5.5 0 0 1-1 0A10.5 10.5 0 0 0 2.5 3a.5.5 0 0 1-.5-.5z"/></svg>
   <% end %>
 <% end %>
 
 <% content_for :title do %>
-Interesting Links | <%= Rails.application.config.site_name %>
+Forbidden Tomes | <%= Rails.application.config.site_name %>
 <% end %>
 
 <div class="max-w-3xl mx-auto">
-  <header class="mb-8 bg-memphis-cyan dark:bg-memphis-purple text-memphis-ink dark:text-memphis-paper border-[3px] border-memphis-ink shadow-retro p-6 rotate-1">
-    <p class="font-display text-[10px] uppercase tracking-widest text-memphis-pink dark:text-memphis-yellow mb-2">// bookmarks</p>
-    <h1 class="h-display-lg" style="text-shadow: 3px 3px 0 #0d0d12">
-      Interesting Links
-    </h1>
-    <p class="font-mono text-xl mt-2">&gt; stuff worth your eyeballs<span class="animate-blink">_</span></p>
+
+  <header class="tome p-8 md:p-10 mb-10 text-center">
+    <p class="font-engraved text-[10px] uppercase tracking-[0.32em] text-grim-blood dark:text-grim-ember mb-3">// reliquary</p>
+    <h1 class="h-blackletter text-5xl sm:text-6xl mb-3">Forbidden Tomes</h1>
+    <p class="font-engraved uppercase tracking-[0.22em] text-xs text-grim-shadow dark:text-grim-gold">
+      ✦ links worth your wax candle ✦
+    </p>
+    <div class="rune-divider mt-5"><span>//</span><span>BOOKMARKS</span><span>//</span></div>
   </header>
 
-  <div class="space-y-6">
+  <div class="space-y-7">
     <%= render @links %>
   </div>
-  <div class="pt-4"><%= paginate @links %></div>
+  <div class="pt-6"><%= paginate @links %></div>
 </div>

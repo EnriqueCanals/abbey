@@ -2,18 +2,17 @@
 <%= @page.title %> | <%= Rails.application.config.site_name %>
 <% end %>
 
-<article class="max-w-3xl mx-auto bg-memphis-paper dark:bg-memphis-crt border-[3px] border-memphis-ink dark:border-memphis-mint shadow-retro-lg p-6 md:p-10 animate-pop-in">
-  <header class="mb-8 border-b-[3px] border-dashed border-memphis-ink dark:border-memphis-mint pb-6">
-    <div class="inline-block bg-memphis-mint text-memphis-ink border-[3px] border-memphis-ink px-3 py-1 font-display text-[10px] uppercase tracking-widest shadow-retro-sm mb-4 rotate-2">
-      Page · <%= @page.slug %>
-    </div>
-    <h1 class="h-display-lg cursor-blink">
+<article class="tome max-w-3xl mx-auto p-8 md:p-12">
+  <header class="mb-10 pb-7 border-b border-dashed border-grim-shadow/40 dark:border-grim-gold/40 text-center">
+    <p class="font-engraved text-[10px] uppercase tracking-[0.32em] text-grim-blood dark:text-grim-ember mb-3">
+      ✦ Chapter · <%= @page.slug %> ✦
+    </p>
+    <h1 class="h-blackletter text-4xl sm:text-5xl md:text-6xl leading-[1.05] cursor-blink">
       <%= @page.title %>
     </h1>
     <% if authenticated? %>
-      <div class="mt-4 font-mono text-base">
-        <%= link_to "edit ▸", edit_page_path(@page),
-                class: "text-memphis-purple dark:text-memphis-cyan hover:underline" %>
+      <div class="mt-4">
+        <%= link_to ":redact ▸", edit_page_path(@page), class: "arc-link font-plex text-sm" %>
       </div>
     <% end %>
   </header>
@@ -21,4 +20,9 @@
   <div class="prose-retro max-w-none">
     <%= @page.rendered_body.html_safe %>
   </div>
+
+  <div class="rune-divider mt-10"><span>//</span><span>EOF</span><span>//</span></div>
+  <p class="text-center font-plex tracking-[0.28em] uppercase text-xs text-grim-shadow/70 dark:text-grim-gold/70">
+    exit 0
+  </p>
 </article>

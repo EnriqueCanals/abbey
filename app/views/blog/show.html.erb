@@ -1,40 +1,59 @@
+<%
+  def to_roman(num)
+    table = [
+      [1000,'M'],[900,'CM'],[500,'D'],[400,'CD'],
+      [100,'C'],[90,'XC'],[50,'L'],[40,'XL'],
+      [10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']
+    ]
+    out = +""
+    n = num.to_i
+    table.each { |v,r| while n >= v; out << r; n -= v; end }
+    out
+  end
+%>
+
 <% content_for :title do %>
 <%= @post.title %> | <%= Rails.application.config.site_name %>
 <% end %>
 
-<%= link_to posts_path, class: "inline-flex items-center font-mono text-lg text-memphis-purple dark:text-memphis-cyan hover:text-memphis-pink dark:hover:text-memphis-mint mb-6" do %>
-  <span class="mr-2">◀</span> back to /posts
+<%= link_to posts_path, class: "inline-flex items-center font-engraved uppercase tracking-[0.22em] text-xs text-grim-shadow dark:text-grim-gold hover:text-grim-blood dark:hover:text-grim-ember transition-colors mb-8" do %>
+  <span class="mr-2">◂</span> back to posts
 <% end %>
 
-<article class="max-w-3xl mx-auto bg-memphis-paper dark:bg-memphis-crt border-[3px] border-memphis-ink dark:border-memphis-mint shadow-retro-lg p-6 md:p-10 animate-pop-in">
+<article class="tome max-w-3xl mx-auto p-8 md:p-12">
 
-  <header class="mb-8 border-b-[3px] border-dashed border-memphis-ink dark:border-memphis-mint pb-6">
-    <div class="inline-block bg-memphis-yellow text-memphis-ink border-[3px] border-memphis-ink px-3 py-1 font-display text-[10px] uppercase tracking-widest shadow-retro-sm mb-4 -rotate-2">
-      Post · <%= @post.created_at.strftime('%b %d, %Y') %>
-    </div>
-
-    <h1 class="h-display-lg mb-4 cursor-blink">
+  <header class="mb-10 pb-7 border-b border-dashed border-grim-shadow/40 dark:border-grim-gold/40 text-center">
+    <p class="font-engraved text-[10px] uppercase tracking-[0.32em] text-grim-blood dark:text-grim-ember mb-3">
+      Folio · Anno&nbsp;<%= to_roman(@post.created_at.year) %>
+    </p>
+    <h1 class="h-blackletter text-4xl sm:text-5xl md:text-6xl leading-[1.05] mb-5 cursor-blink">
       <%= @post.title %>
     </h1>
-
-    <div class="flex flex-col sm:flex-row sm:items-center font-mono text-lg text-memphis-purple dark:text-memphis-cyan gap-2 sm:gap-4">
-      <time>&gt; <%= @post.created_at.strftime("%Y-%m-%d") %></time>
-      <% if authenticated? %>
-        <span class="hidden sm:inline">·</span>
-        <%= link_to "edit ▸", edit_post_path(@post),
-                class: "text-memphis-pink dark:text-memphis-mint hover:underline" %>
-      <% end %>
-    </div>
+    <p class="font-engraved text-xs uppercase tracking-[0.28em] text-grim-shadow dark:text-grim-gold">
+      ✦ <%= @post.created_at.strftime('%B %d, %Y') %> ✦
+    </p>
+    <% if authenticated? %>
+      <div class="mt-4">
+        <%= link_to ":redact ▸", edit_post_path(@post), class: "arc-link font-plex text-sm" %>
+      </div>
+    <% end %>
   </header>
 
   <div class="prose-retro max-w-none mb-10">
     <%= @post.rendered_body.html_safe %>
   </div>
 
-  <div class="border-t-[3px] border-dashed border-memphis-ink dark:border-memphis-mint pt-6">
-    <p class="font-display text-[10px] uppercase tracking-widest text-memphis-purple dark:text-memphis-cyan mb-3">// tagged_with</p>
-    <div class="flex flex-wrap gap-2">
+  <%# COLOPHON %>
+  <div class="pt-6 border-t border-dashed border-grim-shadow/40 dark:border-grim-gold/40">
+    <p class="font-engraved text-[10px] uppercase tracking-[0.32em] text-grim-shadow dark:text-grim-gold mb-3">// inscribed under</p>
+    <div class="flex flex-wrap gap-3 items-center">
       <%= render "shared/tags", post: @post %>
     </div>
   </div>
+
+  <%# SIGN-OFF %>
+  <div class="rune-divider mt-10"><span>//</span><span>EOF</span><span>//</span></div>
+  <p class="text-center font-plex tracking-[0.28em] uppercase text-xs text-grim-shadow/70 dark:text-grim-gold/70">
+    exit 0 · end of transmission
+  </p>
 </article>

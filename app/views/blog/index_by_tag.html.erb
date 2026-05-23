@@ -1,3 +1,17 @@
+<%
+  def to_roman(num)
+    table = [
+      [1000,'M'],[900,'CM'],[500,'D'],[400,'CD'],
+      [100,'C'],[90,'XC'],[50,'L'],[40,'XL'],
+      [10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']
+    ]
+    out = +""
+    n = num.to_i
+    table.each { |v,r| while n >= v; out << r; n -= v; end }
+    out
+  end
+%>
+
 <% content_for :title do %>
   #<%= @tag.name %> | <%= Rails.application.config.site_name %>
 <% end %>
@@ -7,60 +21,61 @@
 <% end %>
 
 <% content_for :rss_button do %>
-  <%= link_to tag_feed_path(id: @tag.name), class: "btn-icon-retro", aria: { label: "RSS Feed" } do %>
-    <%= render "shared/icons/rss" %>
+  <%= link_to tag_feed_path(id: @tag.name), class: "icon-rune", aria: { label: "Auguries (RSS)" } do %>
+    <svg viewBox="0 0 16 16" class="w-4 h-4" fill="currentColor"><path d="M2 12.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0zM2 6.5a.5.5 0 0 1 .5-.5 7.5 7.5 0 0 1 7.5 7.5.5.5 0 0 1-1 0A6.5 6.5 0 0 0 2.5 7a.5.5 0 0 1-.5-.5zM2 2.5A.5.5 0 0 1 2.5 2a11.5 11.5 0 0 1 11.5 11.5.5.5 0 0 1-1 0A10.5 10.5 0 0 0 2.5 3a.5.5 0 0 1-.5-.5z"/></svg>
   <% end %>
 <% end %>
 
-<%
-  card_palettes = [
-    'shadow-retro-pink', 'shadow-retro-cyan', 'shadow-retro-yellow',
-    'shadow-retro-mint', 'shadow-retro-purple', 'shadow-retro-coral'
-  ]
-%>
+<div class="space-y-12">
 
-<div class="space-y-10">
-
-  <div class="bg-memphis-pink dark:bg-memphis-purple text-memphis-paper border-[3px] border-memphis-ink shadow-retro p-6 md:p-8 -rotate-1">
-    <p class="font-display text-[10px] uppercase tracking-widest text-memphis-yellow mb-2">// filter</p>
-    <h1 class="h-display-lg text-memphis-paper" style="text-shadow: 3px 3px 0 #0d0d12">
-      #<%= @tag.name %>
+  <%# BANNER — sigil + invocation %>
+  <div class="tome p-8 md:p-10 text-center">
+    <p class="font-engraved text-[10px] uppercase tracking-[0.32em] text-grim-blood dark:text-grim-ember mb-3">// summoned by sigil</p>
+    <h1 class="h-blackletter text-5xl sm:text-6xl mb-3">
+      <span class="text-grim-shadow dark:text-grim-gold">#</span><%= @tag.name %>
     </h1>
-    <p class="font-mono text-xl mt-2">&gt; <%= pluralize(@posts.total_count, 'transmission') %> matched the query<span class="animate-blink">_</span></p>
+    <p class="font-engraved uppercase tracking-[0.22em] text-xs text-grim-shadow dark:text-grim-gold">
+      ✦ <%= pluralize(@posts.total_count, 'inscription') %> bound to this rune ✦
+    </p>
+    <div class="rune-divider mt-5"><span>//</span><span>FILTER</span><span>//</span></div>
   </div>
 
   <% @posts.each_with_index do |post, idx| %>
-    <% shadow = card_palettes[(post.id || idx) % card_palettes.length] %>
-    <article class="bg-memphis-paper dark:bg-memphis-crt border-[3px] border-memphis-ink dark:border-memphis-mint <%= shadow %> p-6 md:p-8 animate-pop-in transition-transform duration-200 hover:-translate-x-1 hover:-translate-y-1">
-      <h2 class="h-display-md mb-3">
+    <article class="tome relative">
+
+      <div class="absolute -top-5 right-6 flex items-center gap-2 font-engraved text-[10px] uppercase tracking-[0.28em] bg-grim-vellum dark:bg-grim-tomb text-grim-blood dark:text-grim-gold border border-grim-shadow dark:border-grim-gold px-3 py-1 shadow-sm">
+        <span class="text-grim-gold dark:text-grim-ember">✦</span>
+        <span>Folio · Anno&nbsp;<%= to_roman(post.created_at.year) %></span>
+      </div>
+
+      <h2 class="h-blackletter text-2xl sm:text-3xl mb-3 mt-1">
         <%= link_to post.title, dated_post_path(year: post.year, day: post.day, month: post.month, id: post),
-            class: "hover:text-memphis-pink dark:hover:text-memphis-cyan transition-colors" %>
+            class: "hover:text-grim-ember transition-colors" %>
       </h2>
 
-      <time class="font-mono text-base text-memphis-purple dark:text-memphis-cyan mb-4 block">
-        &gt;&gt; <%= post.created_at.strftime('%Y-%m-%d') %>
-      </time>
+      <p class="font-engraved text-xs uppercase tracking-[0.22em] text-grim-shadow dark:text-grim-gold mb-5">
+        ✦ <%= post.created_at.strftime('%B %d, %Y') %>
+      </p>
 
-      <div class="font-sans text-memphis-ink dark:text-memphis-paper/90 leading-relaxed mb-4">
+      <div class="font-manuscript text-grim-ink dark:text-grim-bone leading-relaxed mb-5">
         <%= post.rendered_excerpt.html_safe %>
       </div>
 
-      <div class="flex flex-wrap gap-2 my-4">
+      <div class="flex flex-wrap gap-2 my-5">
         <%= render "shared/tags", post: post %>
       </div>
 
-      <div class="mt-4 flex items-center gap-3 flex-wrap">
-        <% if authenticated? %>
-          <%= link_to "edit", edit_post_path(post), class: "font-mono text-base text-memphis-purple dark:text-memphis-cyan hover:underline" %>
-          <span class="font-mono text-memphis-ink/40 dark:text-memphis-mint/40">|</span>
-        <% end %>
+      <div class="mt-6 flex items-center gap-4 flex-wrap">
         <%= link_to dated_post_path(year: post.year, day: post.day, month: post.month, id: post),
-            class: "btn-retro btn-retro-cyan" do %>
-          ▶ READ MORE
+            class: "spell-btn spell-btn-blood" do %>
+          ✦ open spellbook
+        <% end %>
+        <% if authenticated? %>
+          <%= link_to "redact ▸", edit_post_path(post), class: "arc-link font-plex text-sm" %>
         <% end %>
       </div>
     </article>
   <% end %>
 
-  <div class="pt-4"><%= paginate @posts %></div>
+  <div class="pt-6"><%= paginate @posts %></div>
 </div>

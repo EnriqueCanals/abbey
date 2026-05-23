@@ -1,21 +1,79 @@
 <footer class="mt-auto content-layer">
-  <div class="marquee">
-    <div class="marquee__track">
-      ★ PRESS START ★ <%= Rails.application.config.site_name.upcase %> ★ EST. 2009 ★ INSERT COIN TO CONTINUE ★ 100% HAND-TYPED HTML ★ NO TRACKERS ★ READY P1<span class="ml-2 animate-blink">_</span> &nbsp;&nbsp;
-      ★ PRESS START ★ <%= Rails.application.config.site_name.upcase %> ★ EST. 2009 ★ INSERT COIN TO CONTINUE ★ 100% HAND-TYPED HTML ★ NO TRACKERS ★ READY P1<span class="ml-2 animate-blink">_</span> &nbsp;&nbsp;
+
+  <%# SUMMONING CIRCLE — decorative SVG block before the marquee %>
+  <div class="bg-grim-vellum/30 dark:bg-grim-obsidian/60 border-t border-grim-shadow/30 dark:border-grim-gold/40">
+    <div class="container mx-auto max-w-5xl px-4 py-10">
+      <div class="flex flex-col items-center gap-4">
+        <div class="summoning-circle text-grim-blood dark:text-grim-gold">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <g fill="none" stroke="currentColor" stroke-width="0.9">
+              <%# outer ring %>
+              <g class="ring-outer">
+                <circle cx="100" cy="100" r="96"/>
+                <circle cx="100" cy="100" r="92"/>
+                <%# 12 cardinal ticks %>
+                <% 12.times do |i|
+                     a = (i * 30) * Math::PI / 180
+                     x1 = 100 + 92 * Math.cos(a); y1 = 100 + 92 * Math.sin(a)
+                     x2 = 100 + 86 * Math.cos(a); y2 = 100 + 86 * Math.sin(a) %>
+                  <line x1="<%= x1 %>" y1="<%= y1 %>" x2="<%= x2 %>" y2="<%= y2 %>"/>
+                <% end %>
+                <%# little runes around the band %>
+                <% 8.times do |i|
+                     a = (i * 45 + 22.5) * Math::PI / 180
+                     x = 100 + 89 * Math.cos(a); y = 100 + 89 * Math.sin(a) %>
+                  <text x="<%= x %>" y="<%= y + 2 %>" text-anchor="middle" font-size="6" font-family="Cinzel, serif" fill="currentColor"><%= %w[ᚱ ᚦ ᚷ ᚹ ᛇ ᛏ ᛒ ᛟ][i] %></text>
+                <% end %>
+              </g>
+              <%# inner ring + pentagram %>
+              <g class="ring-inner">
+                <circle cx="100" cy="100" r="66"/>
+                <circle cx="100" cy="100" r="60"/>
+                <%# pentagram %>
+                <polygon points="100,40 117.6,94.4 174.6,94.4 128.5,128.2 146.1,182.6 100,148.8 53.9,182.6 71.5,128.2 25.4,94.4 82.4,94.4" stroke-opacity="0.65"/>
+              </g>
+              <%# center sigil %>
+              <g>
+                <circle cx="100" cy="100" r="14" stroke-width="1.2"/>
+                <path d="M100 90 V110 M90 100 H110" stroke-width="1.2"/>
+                <path d="M93 93 L107 107 M107 93 L93 107" stroke-opacity="0.5"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <p class="font-engraved uppercase tracking-[0.32em] text-xs text-grim-shadow dark:text-grim-gold text-center">
+          // hic sunt dracones · here be daemons //
+        </p>
+      </div>
     </div>
   </div>
-  <div class="bg-memphis-ink dark:bg-black text-memphis-paper border-t-[3px] border-memphis-ink">
-    <div class="container mx-auto px-4 py-6 max-w-5xl flex flex-col md:flex-row justify-between items-center gap-3">
-      <p class="font-mono text-lg">
-        <span class="text-memphis-mint">$</span>
+
+  <%# MARQUEE — scrolling incantation %>
+  <div class="grim-marquee">
+    <div class="grim-marquee__track">
+      <% 2.times do %>
+        <span class="grim-marquee__token">forged in <%= Time.current.year %><span>✦</span></span>
+        <span class="grim-marquee__token">all rites reserved<span>✦</span></span>
+        <span class="grim-marquee__token">brewed local · cast often<span>✦</span></span>
+        <span class="grim-marquee__token">no trackers · only talismans<span>✦</span></span>
+        <span class="grim-marquee__token">arcane commons 0xDEADBEEF<span>✦</span></span>
+        <span class="grim-marquee__token">↑↑↓↓←→←→BA<span>✦</span></span>
+      <% end %>
+    </div>
+  </div>
+
+  <%# COMMAND-LINE COPYRIGHT %>
+  <div class="bg-grim-void text-grim-bone border-t border-grim-gold/40">
+    <div class="container mx-auto px-4 py-5 max-w-5xl flex flex-col md:flex-row justify-between items-center gap-3">
+      <p class="font-plex text-sm">
+        <span class="text-grim-phosphor">root@grimoire</span><span class="text-grim-gold">:</span><span class="text-grim-arcane">~/</span><span class="text-grim-gold">#</span>
         echo "© <%= Time.current.year %> <%= Rails.application.config.site_name %>"
-        <span class="text-memphis-pink animate-blink">▮</span>
+        <span class="text-grim-ember animate-blink">▮</span>
       </p>
-      <p class="font-mono text-base text-memphis-cyan">
-        crafted on
-        <a href="https://github.com/EnriqueCanals/abbey" target="_new" class="text-memphis-yellow underline decoration-wavy decoration-memphis-pink underline-offset-2 hover:bg-memphis-pink hover:text-memphis-paper px-1">abbey</a>
-        · powered by ⚡ caffeine
+      <p class="font-plex text-xs text-grim-gold/80">
+        compiled with
+        <a href="https://github.com/capotej/abbey" target="_new" class="arc-link">abbey</a>
+        · scribed by ⚯ candle &amp; cursor
       </p>
     </div>
   </div>

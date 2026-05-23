@@ -1,54 +1,62 @@
 <%
-  card_palettes = [
-    { border: 'border-memphis-ink', shadow: 'shadow-retro-pink',   accent: 'bg-memphis-pink',   text: 'text-memphis-paper' },
-    { border: 'border-memphis-ink', shadow: 'shadow-retro-cyan',   accent: 'bg-memphis-cyan',   text: 'text-memphis-ink'   },
-    { border: 'border-memphis-ink', shadow: 'shadow-retro-yellow', accent: 'bg-memphis-yellow', text: 'text-memphis-ink'   },
-    { border: 'border-memphis-ink', shadow: 'shadow-retro-mint',   accent: 'bg-memphis-mint',   text: 'text-memphis-ink'   },
-    { border: 'border-memphis-ink', shadow: 'shadow-retro-purple', accent: 'bg-memphis-purple', text: 'text-memphis-paper' },
-    { border: 'border-memphis-ink', shadow: 'shadow-retro-coral',  accent: 'bg-memphis-coral',  text: 'text-memphis-paper' }
-  ]
+  def to_roman(num)
+    table = [
+      [1000,'M'],[900,'CM'],[500,'D'],[400,'CD'],
+      [100,'C'],[90,'XC'],[50,'L'],[40,'XL'],
+      [10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']
+    ]
+    out = +""
+    n = num.to_i
+    table.each { |v,r| while n >= v; out << r; n -= v; end }
+    out
+  end
 %>
 
-<div class="space-y-10">
-  <% @posts.each_with_index do |post, idx| %>
-    <% palette = card_palettes[(post.id || idx) % card_palettes.length] %>
-    <article class="relative bg-memphis-paper dark:bg-memphis-crt border-[3px] <%= palette[:border] %> dark:border-memphis-mint <%= palette[:shadow] %> p-6 md:p-8 animate-pop-in transition-transform duration-200 hover:-translate-x-1 hover:-translate-y-1">
+<div class="mb-10 text-center">
+  <p class="font-engraved tracking-[0.32em] uppercase text-xs text-grim-shadow dark:text-grim-gold">// folio · transmissions //</p>
+  <h1 class="h-blackletter text-4xl sm:text-5xl mt-3 mb-2">Recent Inscriptions</h1>
+  <div class="rune-divider mt-4"><span>//</span><span>LOG</span><span>//</span></div>
+</div>
 
-      <div class="absolute -top-4 -left-4 <%= palette[:accent] %> <%= palette[:text] %> border-[3px] border-memphis-ink px-3 py-1 font-display text-[10px] uppercase tracking-widest shadow-retro-sm rotate-[-3deg]">
-        <%= post.created_at.strftime('%b %Y') %>
+<div class="space-y-12">
+  <% @posts.each_with_index do |post, idx| %>
+    <article class="tome relative">
+
+      <%# Page-number tag in the corner — Folio + Roman numeral year %>
+      <div class="absolute -top-5 right-6 flex items-center gap-2 font-engraved text-[10px] uppercase tracking-[0.28em] bg-grim-vellum dark:bg-grim-tomb text-grim-blood dark:text-grim-gold border border-grim-shadow dark:border-grim-gold px-3 py-1 shadow-sm">
+        <span class="text-grim-gold dark:text-grim-ember">✦</span>
+        <span>Folio · Anno&nbsp;<%= to_roman(post.created_at.year) %></span>
       </div>
 
-      <h2 class="h-display-md mt-2 mb-3">
+      <h2 class="h-blackletter text-3xl sm:text-4xl leading-tight mb-3 mt-1">
         <%= link_to post.title, dated_post_path(year: post.year, day: post.day, month: post.month, id: post),
-            class: "hover:text-memphis-pink dark:hover:text-memphis-cyan transition-colors glitch-hover" %>
+            class: "hover:text-grim-ember transition-colors duration-200" %>
       </h2>
 
-      <time class="font-mono text-base text-memphis-purple dark:text-memphis-cyan mb-4 block">
-        &gt;&gt; <%= post.created_at.strftime('%Y-%m-%d') %>
-      </time>
+      <p class="font-engraved text-xs uppercase tracking-[0.22em] text-grim-shadow dark:text-grim-gold mb-5">
+        ✦ <%= post.created_at.strftime('%B %d, %Y') %> &nbsp;·&nbsp; chapter <%= to_roman(idx + 1) %>
+      </p>
 
-      <div class="font-sans text-memphis-ink dark:text-memphis-paper/90 leading-relaxed mb-4 text-[1rem]">
+      <div class="font-manuscript text-grim-ink dark:text-grim-bone leading-relaxed mb-5 text-[1.08rem]">
         <%= post.rendered_excerpt.html_safe %>
       </div>
 
-      <div class="flex flex-wrap gap-2 my-4">
+      <div class="flex flex-wrap gap-2 my-5">
         <%= render "shared/tags", post: post %>
       </div>
 
-      <div class="mt-4 flex items-center gap-3 flex-wrap">
-        <% if authenticated? %>
-          <%= link_to "edit", edit_post_path(post), class: "font-mono text-base text-memphis-purple dark:text-memphis-cyan hover:underline" %>
-          <span class="font-mono text-memphis-ink/40 dark:text-memphis-mint/40">|</span>
-        <% end %>
+      <div class="mt-6 flex items-center gap-4 flex-wrap">
         <%= link_to dated_post_path(year: post.year, day: post.day, month: post.month, id: post),
-            class: "btn-retro btn-retro-cyan" do %>
-          ▶ READ MORE
+            class: "spell-btn spell-btn-blood" do %>
+          ✦ open spellbook
+        <% end %>
+        <% if authenticated? %>
+          <%= link_to "redact ▸", edit_post_path(post),
+              class: "arc-link font-plex text-sm" %>
         <% end %>
       </div>
     </article>
   <% end %>
 
-  <div class="pt-4">
-    <%= paginate @posts %>
-  </div>
+  <div class="pt-6"><%= paginate @posts %></div>
 </div>

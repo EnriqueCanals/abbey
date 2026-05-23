@@ -1,92 +1,96 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;0,800;1,400&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ------------------------------------------------------------------
-   Memphis / 8-bit base
-------------------------------------------------------------------- */
+/* ==================================================================
+   GRIMOIRE — retro hacker dark fantasy
+   ------------------------------------------------------------------
+   Phrack zine + illuminated manuscript + NetHack dungeon.
+   Light mode is candle-lit parchment. Dark mode is the cryptarchive:
+   void background, phosphor green for code, ember/gold for chrome.
+================================================================== */
 
 @layer base {
   html {
-    background-color: #fff8ef;
-    color: #0d0d12;
-    image-rendering: pixelated;
+    background-color: #ebd9b3;
+    color: #1a1410;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-feature-settings: "ss01" on, "cv11" on, "kern", "liga";
   }
-
   html.dark {
-    background-color: #0a0e1a;
-    color: #f0fff7;
+    background-color: #07080d;
+    color: #e9e0c8;
   }
 
   body {
-    font-family: 'Space Grotesk', system-ui, sans-serif;
-    font-feature-settings: "ss01" on, "ss02" on;
     position: relative;
     overflow-x: hidden;
+    min-height: 100vh;
   }
 
-  /* Memphis confetti drifting in the background */
+  /* ----- LIGHT MODE: aged parchment with iron-ink fiber grain ----- */
   body::before {
     content: "";
     position: fixed;
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    opacity: .85;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='420' height='420' viewBox='0 0 420 420'>\
-      <g fill='none' stroke-width='3' stroke-linecap='round'>\
-        <circle cx='40' cy='60' r='6' fill='%23ff3eb5'/>\
-        <circle cx='380' cy='90' r='4' fill='%2300e5ff'/>\
-        <circle cx='130' cy='370' r='5' fill='%23ffd400'/>\
-        <circle cx='290' cy='300' r='7' fill='%2300ff9c'/>\
-        <path d='M70 200 q12 -16 24 0 t24 0 t24 0' stroke='%23b14aff'/>\
-        <path d='M250 50 q10 -12 20 0 t20 0' stroke='%23ff6b4a'/>\
-        <path d='M310 220 l14 -14 M310 220 l-14 14 M310 220 l14 14 M310 220 l-14 -14' stroke='%230d0d12'/>\
-        <path d='M60 320 l16 -16 M60 320 l-16 16 M60 320 l16 16 M60 320 l-16 -16' stroke='%2300e5ff'/>\
-        <polygon points='200,150 215,178 185,178' fill='%23ffd400' stroke='%230d0d12'/>\
-        <polygon points='350,360 365,388 335,388' fill='%23ff3eb5' stroke='%230d0d12'/>\
-        <rect x='160' y='40' width='14' height='14' fill='%2300ff9c' stroke='%230d0d12' transform='rotate(20 167 47)'/>\
-        <rect x='40' y='240' width='10' height='10' fill='%23b14aff' stroke='%230d0d12' transform='rotate(15 45 245)'/>\
-      </g>\
+    opacity: 1;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'>\
+      <defs>\
+        <filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='5'/><feColorMatrix values='0 0 0 0 0.10  0 0 0 0 0.08  0 0 0 0 0.05  0 0 0 0.12 0'/></filter>\
+      </defs>\
+      <rect width='600' height='600' filter='url(%23n)'/>\
     </svg>");
-    background-size: 420px 420px;
-    animation: drift 22s ease-in-out infinite;
+    background-size: 600px 600px;
+  }
+  /* corner foxing on parchment */
+  html:not(.dark) body::before {
+    background:
+      radial-gradient(circle at 0% 0%,   rgba(120,80,30,0.18), transparent 24%),
+      radial-gradient(circle at 100% 0%, rgba(120,80,30,0.18), transparent 24%),
+      radial-gradient(circle at 0% 100%, rgba(120,80,30,0.18), transparent 24%),
+      radial-gradient(circle at 100% 100%, rgba(120,80,30,0.18), transparent 24%),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'><defs><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='5'/><feColorMatrix values='0 0 0 0 0.10  0 0 0 0 0.08  0 0 0 0 0.05  0 0 0 0.12 0'/></filter></defs><rect width='600' height='600' filter='url(%23n)'/></svg>");
+    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 600px 600px;
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat;
   }
 
-  /* Dim the confetti in dark/terminal mode */
+  /* ----- DARK MODE: starless void with drifting ember dust ----- */
   html.dark body::before {
-    opacity: .25;
-    filter: hue-rotate(20deg) saturate(1.2);
+    opacity: .9;
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(106,76,171,0.18), transparent 60%),
+      radial-gradient(900px 500px at 10% 110%, rgba(240,128,41,0.10), transparent 65%),
+      radial-gradient(2px 2px at 23% 16%, rgba(200,164,77,0.7), transparent 100%),
+      radial-gradient(1.5px 1.5px at 67% 44%, rgba(87,242,135,0.55), transparent 100%),
+      radial-gradient(2px 2px at 89% 72%, rgba(200,164,77,0.55), transparent 100%),
+      radial-gradient(1.5px 1.5px at 12% 78%, rgba(106,76,171,0.55), transparent 100%),
+      radial-gradient(1.5px 1.5px at 44% 22%, rgba(200,164,77,0.4), transparent 100%),
+      radial-gradient(1px 1px at 56% 88%, rgba(255,255,255,0.5), transparent 100%);
+    background-repeat: no-repeat;
+    animation: mist 22s ease-in-out infinite;
   }
 
-  /* CRT scanlines overlay — chassis only, kept off the reading area */
+  /* CRT scanlines — gentle, dark-mode only, keeps the reading area readable */
   body::after {
     content: "";
     position: fixed;
     inset: 0;
     z-index: 100;
     pointer-events: none;
-    background-image:
-      repeating-linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0) 0px,
-        rgba(0, 0, 0, 0) 3px,
-        rgba(0, 0, 0, 0.022) 3px,
-        rgba(0, 0, 0, 0.022) 4px
-      );
-    mix-blend-mode: multiply;
+    background-image: none;
   }
   html.dark body::after {
-    background-image:
-      repeating-linear-gradient(
-        to bottom,
-        rgba(0, 255, 156, 0) 0px,
-        rgba(0, 255, 156, 0) 3px,
-        rgba(0, 255, 156, 0.028) 3px,
-        rgba(0, 255, 156, 0.028) 4px
-      );
+    background-image: repeating-linear-gradient(
+      to bottom,
+      rgba(87,242,135,0) 0px,
+      rgba(87,242,135,0) 3px,
+      rgba(87,242,135,0.018) 3px,
+      rgba(87,242,135,0.018) 4px
+    );
     mix-blend-mode: screen;
   }
 
@@ -95,213 +99,444 @@
     z-index: 1;
   }
 
-  /* Selection */
-  ::selection {
-    background: #ff3eb5;
-    color: #fff8ef;
+  ::selection { background: #8b1d27; color: #ebd9b3; }
+  html.dark ::selection { background: #f08029; color: #07080d; }
+
+  /* Dark scrollbar like an old terminal */
+  html.dark ::-webkit-scrollbar { width: 12px; }
+  html.dark ::-webkit-scrollbar-track { background: #07080d; }
+  html.dark ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #6a4cab, #2d1b3a);
+    border: 1px solid #c8a44d;
   }
-  html.dark ::selection {
-    background: #00ff9c;
-    color: #0a0e1a;
-  }
+  html.dark ::-webkit-scrollbar-thumb:hover { background: #f08029; }
 }
 
-/* ------------------------------------------------------------------
-   Components
-------------------------------------------------------------------- */
+/* ==================================================================
+   COMPONENTS
+================================================================== */
 
 @layer components {
 
-  /* Neo-brutalist card */
-  .card-retro {
-    @apply bg-white dark:bg-memphis-crt border-[3px] border-memphis-ink dark:border-memphis-mint
-           shadow-retro dark:shadow-retro-mint
-           p-6 transition-all duration-200;
+  /* ---------- TOME (the card) ----------
+     A weathered codex page. Double border (gold/ink), torn corner,
+     subtle vellum gradient. In dark mode it becomes an obsidian
+     slate inscribed in gold leaf.                                */
+  .tome {
+    position: relative;
+    background:
+      linear-gradient(180deg, rgba(255,250,235,0.92), rgba(235,217,179,0.92)),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><defs><filter id='n'><feTurbulence baseFrequency='0.65' numOctaves='2' seed='12'/><feColorMatrix values='0 0 0 0 0.4  0 0 0 0 0.30  0 0 0 0 0.18  0 0 0 0.18 0'/></filter></defs><rect width='240' height='240' filter='url(%23n)'/></svg>");
+    color: #1a1410;
+    border: 1px solid #1a1410;
+    box-shadow:
+      inset 0 0 0 6px #ebd9b3,
+      inset 0 0 0 7px #c8a44d,
+      0 18px 36px -16px rgba(20,12,6,0.55);
+    padding: 1.75rem;
+    transition: transform .25s ease, box-shadow .25s ease;
   }
-  .card-retro:hover {
-    transform: translate(-2px, -2px);
-    @apply shadow-retro-lg;
+  .tome:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 0 0 6px #ebd9b3,
+      inset 0 0 0 7px #c8a44d,
+      0 28px 48px -20px rgba(20,12,6,0.6);
   }
-  html.dark .card-retro:hover {
-    box-shadow: 10px 10px 0 0 #00ff9c;
+  html.dark .tome {
+    background:
+      linear-gradient(180deg, #11131c, #0a0b12),
+      radial-gradient(120% 60% at 50% 0%, rgba(106,76,171,0.18), transparent 70%);
+    color: #e9e0c8;
+    border-color: #c8a44d;
+    box-shadow:
+      inset 0 0 0 4px #07080d,
+      inset 0 0 0 5px rgba(200,164,77,0.55),
+      inset 0 0 80px rgba(106,76,171,0.18),
+      0 22px 50px -20px rgba(0,0,0,0.85);
+  }
+  html.dark .tome:hover {
+    box-shadow:
+      inset 0 0 0 4px #07080d,
+      inset 0 0 0 5px #c8a44d,
+      inset 0 0 90px rgba(240,128,41,0.18),
+      0 28px 60px -22px rgba(0,0,0,0.95);
+  }
+  /* corner sigils on every tome */
+  .tome::before, .tome::after {
+    content: "";
+    position: absolute;
+    width: 28px; height: 28px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: .85;
+    pointer-events: none;
+  }
+  .tome::before {
+    top: -14px; left: -14px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'><g fill='none' stroke='%23c8a44d' stroke-width='1.2'><circle cx='14' cy='14' r='10'/><path d='M14 4v20M4 14h20'/><path d='M14 14 L7 7 M14 14 L21 7 M14 14 L7 21 M14 14 L21 21' stroke-opacity='0.45'/></g></svg>");
+  }
+  .tome::after {
+    bottom: -14px; right: -14px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'><g fill='none' stroke='%238b1d27' stroke-width='1.2'><polygon points='14,3 17,13 27,13 19,19 22,28 14,22 6,28 9,19 1,13 11,13'/></g></svg>");
+  }
+  html.dark .tome::before {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'><g fill='none' stroke='%23c8a44d' stroke-width='1.2'><circle cx='14' cy='14' r='10'/><path d='M14 4v20M4 14h20'/><path d='M14 14 L7 7 M14 14 L21 7 M14 14 L7 21 M14 14 L21 21' stroke-opacity='0.45'/></g></svg>");
+  }
+  html.dark .tome::after {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'><g fill='none' stroke='%23f08029' stroke-width='1.2'><polygon points='14,3 17,13 27,13 19,19 22,28 14,22 6,28 9,19 1,13 11,13'/></g></svg>");
   }
 
-  /* Buttons */
-  .btn-retro {
-    @apply inline-flex items-center gap-2
-           font-display text-xs uppercase tracking-wider
-           bg-memphis-yellow text-memphis-ink
-           border-[3px] border-memphis-ink
-           px-4 py-2
-           shadow-retro
-           transition-all duration-150
-           hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-retro-sm
-           active:translate-x-[4px] active:translate-y-[4px] active:shadow-none;
+  /* ---------- SPELL BUTTON ---------- */
+  .spell-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #1a1410;
+    background: linear-gradient(180deg, #f4e6c0, #d8c08a);
+    border: 1px solid #1a1410;
+    box-shadow: 0 1px 0 #c8a44d, 0 2px 0 #1a1410, 0 4px 12px -2px rgba(20,12,6,0.4);
+    padding: .55rem 1rem;
+    transition: transform .12s ease, box-shadow .12s ease, background .25s ease;
   }
-  .btn-retro-pink   { @apply bg-memphis-pink   text-memphis-paper; }
-  .btn-retro-cyan   { @apply bg-memphis-cyan   text-memphis-ink;   }
-  .btn-retro-mint   { @apply bg-memphis-mint   text-memphis-ink;   }
-  .btn-retro-purple { @apply bg-memphis-purple text-memphis-paper; }
-  .btn-retro-coral  { @apply bg-memphis-coral  text-memphis-paper; }
-  .btn-retro-ghost  { @apply bg-memphis-paper  text-memphis-ink;   }
+  .spell-btn:hover {
+    transform: translateY(-1px);
+    background: linear-gradient(180deg, #f8edc8, #e2cd9a);
+    box-shadow: 0 1px 0 #c8a44d, 0 4px 0 #1a1410, 0 8px 16px -2px rgba(20,12,6,0.45);
+  }
+  .spell-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 #c8a44d, 0 0 0 #1a1410;
+  }
+  html.dark .spell-btn {
+    color: #ebd9b3;
+    background: linear-gradient(180deg, #1a1d2a, #0e0f17);
+    border-color: #c8a44d;
+    box-shadow: 0 1px 0 rgba(200,164,77,0.4), 0 2px 0 #07080d, 0 0 18px rgba(240,128,41,0.18);
+  }
+  html.dark .spell-btn:hover {
+    background: linear-gradient(180deg, #232636, #15172a);
+    box-shadow: 0 1px 0 #c8a44d, 0 4px 0 #07080d, 0 0 24px rgba(240,128,41,0.45);
+    color: #f08029;
+  }
+  .spell-btn-blood { background: linear-gradient(180deg, #b1262f, #7a161e); color: #ebd9b3; border-color: #1a1410; }
+  .spell-btn-blood:hover { background: linear-gradient(180deg, #c93340, #8a1b24); }
+  html.dark .spell-btn-blood { background: linear-gradient(180deg, #7a161e, #4b0d12); color: #ebd9b3; }
+  .spell-btn-arcane { background: linear-gradient(180deg, #7e5cc4, #4d3786); color: #ebd9b3; border-color: #1a1410; }
+  html.dark .spell-btn-arcane { background: linear-gradient(180deg, #6a4cab, #2d1b3a); color: #ebd9b3; }
+  .spell-btn-ember { background: linear-gradient(180deg, #f08029, #b65a13); color: #1a1410; }
+  html.dark .spell-btn-ember { background: linear-gradient(180deg, #f08029, #8a4310); color: #07080d; }
+  .spell-btn-phosphor { background: linear-gradient(180deg, #57f287, #2aa758); color: #07080d; }
 
-  /* Icon button (RSS / theme toggle) */
-  .btn-icon-retro {
-    @apply inline-flex items-center justify-center
-           w-10 h-10
-           bg-memphis-paper text-memphis-ink
-           border-[3px] border-memphis-ink
-           shadow-retro-sm
-           transition-all duration-150
-           hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none
-           dark:bg-memphis-crt dark:text-memphis-mint dark:border-memphis-mint dark:shadow-none;
+  /* ---------- ICON BUTTON ---------- */
+  .icon-rune {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 2.5rem; height: 2.5rem;
+    background: linear-gradient(180deg, #f4e6c0, #d8c08a);
+    color: #1a1410;
+    border: 1px solid #1a1410;
+    box-shadow: 0 1px 0 #c8a44d, 0 2px 0 #1a1410;
+    transition: all .15s ease;
+  }
+  .icon-rune:hover { color: #8b1d27; transform: translateY(-1px); }
+  html.dark .icon-rune {
+    background: linear-gradient(180deg, #1a1d2a, #0e0f17);
+    color: #c8a44d;
+    border-color: #c8a44d;
+    box-shadow: 0 0 14px rgba(240,128,41,0.25);
+  }
+  html.dark .icon-rune:hover { color: #f08029; box-shadow: 0 0 22px rgba(240,128,41,0.55); }
+
+  /* ---------- WAX SEAL (TAGS) ----------
+     A pressed wax disc. Different colors cycle by tag hash.       */
+  .wax-seal {
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    min-width: 2.25rem;
+    padding: .5rem .9rem;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 700;
+    font-size: .68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #f6ead0;
+    background: radial-gradient(circle at 30% 25%, rgba(255,255,255,0.35), transparent 50%), #8b1d27;
+    border: 1px solid #1a1410;
+    border-radius: 999px;
+    box-shadow:
+      inset 0 -2px 4px rgba(0,0,0,0.4),
+      inset 0 2px 2px rgba(255,255,255,0.15),
+      0 4px 8px -2px rgba(20,12,6,0.45);
+    transform: rotate(-4deg);
+    transition: transform .2s ease;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.35);
+  }
+  .wax-seal:hover { transform: rotate(0deg) scale(1.05); }
+  html.dark .wax-seal {
+    border-color: #c8a44d;
+    box-shadow:
+      inset 0 -2px 4px rgba(0,0,0,0.55),
+      inset 0 2px 2px rgba(200,164,77,0.25),
+      0 0 16px rgba(240,128,41,0.2);
+  }
+  .wax-seal-blood    { background: radial-gradient(circle at 30% 25%, rgba(255,255,255,0.35), transparent 50%), #8b1d27; }
+  .wax-seal-arcane   { background: radial-gradient(circle at 30% 25%, rgba(255,255,255,0.35), transparent 50%), #6a4cab; }
+  .wax-seal-ember    { background: radial-gradient(circle at 30% 25%, rgba(255,255,255,0.35), transparent 50%), #b65a13; color: #fff3d8; }
+  .wax-seal-phosphor { background: radial-gradient(circle at 30% 25%, rgba(255,255,255,0.35), transparent 50%), #2aa758; }
+  .wax-seal-gold     { background: radial-gradient(circle at 30% 25%, rgba(255,255,255,0.4), transparent 50%), #c8a44d; color: #1a1410; text-shadow: 0 1px 0 rgba(255,255,255,0.25); }
+  .wax-seal-ichor    { background: radial-gradient(circle at 30% 25%, rgba(255,255,255,0.3), transparent 50%), #2d1b3a; }
+
+  /* ---------- HEADINGS ----------
+     Matrix-minimal: monospace display, all-caps, tight letter-spacing,
+     no decorative drop-shadow in light mode; subtle phosphor halo
+     only in dark mode. Reads like terminal output, not a manuscript. */
+  .h-blackletter {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 800;
+    color: #8b1d27;
+    line-height: 1.0;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    font-feature-settings: "ss02" on, "calt" on;
+  }
+  html.dark .h-blackletter {
+    color: #c8a44d;
+    text-shadow: 0 0 10px rgba(200,164,77,0.35), 0 0 28px rgba(240,128,41,0.12);
+  }
+  .h-engraved {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #3a2f25;
+  }
+  html.dark .h-engraved { color: #c8a44d; }
+  .h-engraved-sm { font-size: .72rem; letter-spacing: 0.22em; }
+
+  /* ---------- RUNE DIVIDER ---------- */
+  .rune-divider {
+    display: flex; align-items: center; gap: .9rem;
+    color: #8b1d27;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: .72rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    margin: 1.6rem 0;
+  }
+  .rune-divider::before, .rune-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(139,29,39,0.6), transparent);
+  }
+  html.dark .rune-divider { color: #c8a44d; }
+  html.dark .rune-divider::before, html.dark .rune-divider::after {
+    background: linear-gradient(90deg, transparent, rgba(200,164,77,0.6), transparent);
   }
 
-  /* Tag pill */
-  .tag-retro {
-    @apply inline-flex items-center
-           font-mono text-base leading-none
-           px-3 py-1
-           border-[2px] border-memphis-ink
-           shadow-retro-sm
-           transition-transform duration-150
-           hover:-rotate-2 hover:scale-105;
+  /* ---------- TERMINAL CHROME (for code blocks / about-the-author) ---------- */
+  .crypt-terminal {
+    background: #07080d;
+    color: #57f287;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: .92rem;
+    line-height: 1.55;
+    border: 1px solid #c8a44d;
+    box-shadow:
+      inset 0 0 80px rgba(106,76,171,0.18),
+      0 0 22px rgba(87,242,135,0.18),
+      0 18px 40px -18px rgba(0,0,0,0.7);
+    padding: 1rem 1.2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .crypt-terminal::before {
+    content: "▒▓ ~/grimoire/spells $ cast";
+    display: block;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: .68rem;
+    color: #c8a44d;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin: -1rem -1.2rem 0.8rem;
+    padding: .55rem .9rem;
+    background: #0e0f17;
+    border-bottom: 1px solid #c8a44d;
+  }
+  .crypt-terminal::after {
+    content: "";
+    position: absolute; inset: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0 3px,
+      rgba(87,242,135,0.04) 3px 4px
+    );
   }
 
-  /* Headings — pixel display */
-  .h-display {
-    @apply font-display text-memphis-ink dark:text-memphis-mint
-           leading-[1.4] tracking-tight;
-    text-shadow: 3px 3px 0 #ff3eb5;
-  }
-  html.dark .h-display { text-shadow: 3px 3px 0 #00e5ff; }
-
-  .h-display-sm  { @apply h-display text-base sm:text-lg; }
-  .h-display-md  { @apply h-display text-xl sm:text-2xl; }
-  .h-display-lg  { @apply h-display text-2xl sm:text-3xl md:text-4xl; }
-
-  /* Blinking terminal cursor */
+  /* ---------- BLINKING CURSOR ---------- */
   .cursor-blink::after {
     content: "▮";
     display: inline-block;
-    margin-left: 0.25rem;
-    color: #ff3eb5;
+    margin-left: 0.35rem;
+    color: #f08029;
     animation: blink 1s steps(2, start) infinite;
   }
-  html.dark .cursor-blink::after { color: #00ff9c; }
+  html.dark .cursor-blink::after { color: #57f287; }
 
-  /* Marquee strip (used in footer) */
-  .marquee {
+  /* ---------- CANDLE-FLICKER GLYPH ---------- */
+  .candle-flicker {
+    animation: flicker 4.6s linear infinite;
+    color: #f08029;
+  }
+
+  /* ---------- ARCANE LINK ---------- */
+  .arc-link {
+    color: #8b1d27;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: color .15s ease;
+  }
+  .arc-link:hover { color: #f08029; text-decoration-style: solid; }
+  html.dark .arc-link { color: #c8a44d; }
+  html.dark .arc-link:hover { color: #f08029; }
+
+  /* ---------- SUMMONING CIRCLE (decorative SVG holder) ---------- */
+  .summoning-circle {
+    position: relative;
+    width: 11rem; height: 11rem;
+    margin: 0 auto;
+  }
+  .summoning-circle svg { width: 100%; height: 100%; }
+  .summoning-circle .ring-outer { animation: sigil-spin 42s linear infinite; transform-origin: center; }
+  .summoning-circle .ring-inner { animation: sigil-spin 56s linear infinite reverse; transform-origin: center; }
+
+  /* ---------- MARQUEE STRIP (footer) ---------- */
+  .grim-marquee {
     overflow: hidden;
     white-space: nowrap;
-    border-top: 3px solid #0d0d12;
-    border-bottom: 3px solid #0d0d12;
-    background: repeating-linear-gradient(
-      45deg,
-      #ffd400 0,
-      #ffd400 18px,
-      #0d0d12 18px,
-      #0d0d12 36px
-    );
-    padding: 4px 0;
+    background: linear-gradient(180deg, #07080d, #0e0f17);
+    color: #c8a44d;
+    border-top: 1px solid #c8a44d;
+    border-bottom: 1px solid #c8a44d;
+    padding: .55rem 0;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 500;
+    font-size: .74rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
   }
-  .marquee__track {
+  .grim-marquee__track {
     display: inline-block;
-    animation: marquee 28s linear infinite;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 12px;
-    color: #0d0d12;
-    background: #fff8ef;
-    padding: 6px 16px;
-    border: 2px solid #0d0d12;
+    animation: marquee 38s linear infinite;
   }
+  .grim-marquee__token { display: inline-block; padding: 0 1.5rem; }
+  .grim-marquee__token span { color: #f08029; padding-right: 1.5rem; }
 
-  /* "Window chrome" — for code / terminal blocks */
-  .crt-window {
-    @apply relative
-           bg-memphis-crt text-memphis-mint
-           border-[3px] border-memphis-ink
-           shadow-retro
-           font-mono text-sm
-           overflow-hidden;
+  /* ---------- INCANT OVERLAY (Konami code easter egg) ---------- */
+  .incant-overlay {
+    position: fixed; inset: 0;
+    background: radial-gradient(circle, rgba(7,8,13,0.85), rgba(7,8,13,0.98));
+    color: #c8a44d;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    z-index: 9999;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    text-align: center;
+    animation: incant 1.2s ease-out forwards;
   }
-  .crt-window::before {
-    content: "● ● ●";
-    display: block;
-    background: #ff3eb5;
-    color: #0d0d12;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 10px;
-    letter-spacing: 4px;
-    padding: 6px 12px;
-    border-bottom: 3px solid #0d0d12;
+  .incant-overlay .incant-title {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    font-size: clamp(2.5rem, 9vw, 6rem);
+    color: #f08029;
+    text-shadow: 0 0 24px rgba(240,128,41,0.65), 0 0 60px rgba(240,128,41,0.35);
   }
-
-  /* Glitchy hover-text helper */
-  .glitch-hover:hover {
-    animation: glitch 0.8s steps(1) 1;
-  }
+  .incant-overlay .incant-sub { font-family: 'IBM Plex Mono', monospace; color: #57f287; letter-spacing: 0.4em; margin-top: 1rem; text-transform: uppercase; }
 }
 
-/* ------------------------------------------------------------------
-   Markdown rendered content (overrides renderer output)
-------------------------------------------------------------------- */
+/* ==================================================================
+   MARKDOWN BODY — .prose-retro (kept name for view compat)
+================================================================== */
 
 .prose-retro {
-  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   font-size: 1.05rem;
-  line-height: 1.75;
-  color: #0d0d12;
+  line-height: 1.72;
+  color: #1a1410;
+  font-feature-settings: "ss01" on, "cv11" on, "kern", "liga";
 }
-.dark .prose-retro { color: #d6ffe9; }
+.dark .prose-retro { color: #e9e0c8; }
+
+/* Matrix drop cap — chunky monospace block letter, terminal-style.
+   Uses a thin underline instead of the old illuminated-manuscript halo. */
+.prose-retro > p:first-of-type::first-letter {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-weight: 800;
+  float: left;
+  font-size: 4.4rem;
+  line-height: 0.95;
+  padding: .15rem .55rem .15rem 0;
+  margin-right: .25rem;
+  color: #8b1d27;
+  border-bottom: 2px solid currentColor;
+}
+.dark .prose-retro > p:first-of-type::first-letter {
+  color: #57f287;
+  text-shadow: 0 0 10px rgba(87,242,135,0.45), 0 0 24px rgba(87,242,135,0.18);
+  border-bottom-color: rgba(87,242,135,0.55);
+}
 
 .prose-retro h1,
 .prose-retro h2,
 .prose-retro h3 {
-  font-family: 'Press Start 2P', system-ui, sans-serif;
-  line-height: 1.5;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-weight: 700;
   margin-top: 2em;
-  margin-bottom: 0.8em;
+  margin-bottom: 0.6em;
   letter-spacing: -0.02em;
+  color: #3a2f25;
+  text-transform: uppercase;
 }
-.prose-retro h1 { font-size: 1.5rem; color: #ff3eb5; text-shadow: 3px 3px 0 #0d0d12; }
-.prose-retro h2 { font-size: 1.15rem; color: #b14aff; text-shadow: 2px 2px 0 #ffd400; }
-.prose-retro h3 { font-size: 0.95rem; color: #00a3cc; }
+.dark .prose-retro h1,
+.dark .prose-retro h2,
+.dark .prose-retro h3 { color: #c8a44d; }
+.prose-retro h1 { font-size: 1.65rem; border-bottom: 1px solid #8b1d27; padding-bottom: .35em; }
+.prose-retro h2 { font-size: 1.35rem; color: #8b1d27; }
+.prose-retro h3 { font-size: 1.1rem; }
+.dark .prose-retro h1 { border-bottom-color: #c8a44d; }
+.dark .prose-retro h2 { color: #f08029; }
 
-.dark .prose-retro h1 { color: #00ff9c; text-shadow: 3px 3px 0 #ff3eb5; }
-.dark .prose-retro h2 { color: #ffd400; text-shadow: 2px 2px 0 #b14aff; }
-.dark .prose-retro h3 { color: #00e5ff; }
-
-.prose-retro p {
-  margin-bottom: 1.1em;
-}
+.prose-retro p { margin-bottom: 1.1em; }
 
 .prose-retro strong {
-  color: #0d0d12;
-  background: #ffd400;
-  padding: 0 4px;
-  border: 2px solid #0d0d12;
-  font-weight: 700;
+  color: #8b1d27;
+  font-weight: 800;
 }
-.dark .prose-retro strong { background: #00ff9c; color: #0a0e1a; border-color: #00ff9c; }
+.dark .prose-retro strong { color: #f08029; }
 
 .prose-retro em {
   font-style: italic;
-  color: #b14aff;
+  color: #6a4cab;
 }
-.dark .prose-retro em { color: #00e5ff; }
+.dark .prose-retro em { color: #c8a44d; }
 
 .prose-retro a {
-  color: #ff3eb5;
-  font-weight: 600;
+  color: #8b1d27;
   text-decoration: underline;
-  text-decoration-style: wavy;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 4px;
+  text-decoration-style: dotted;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
-.prose-retro a:hover { background: #ffd400; color: #0d0d12; }
-.dark .prose-retro a { color: #00ff9c; }
-.dark .prose-retro a:hover { background: #ff3eb5; color: #fff8ef; }
+.prose-retro a:hover { color: #f08029; text-decoration-style: solid; }
+.dark .prose-retro a { color: #c8a44d; }
+.dark .prose-retro a:hover { color: #f08029; }
 
 .prose-retro ul,
 .prose-retro ol {
@@ -310,75 +545,105 @@
 }
 .prose-retro ul { list-style: none; }
 .prose-retro ul > li::before {
-  content: "▸ ";
-  color: #ff3eb5;
+  content: "✦";
+  color: #8b1d27;
   font-weight: 700;
-  margin-right: 0.4em;
+  margin-right: 0.55em;
+  display: inline-block;
+  transform: translateY(-1px);
 }
-.dark .prose-retro ul > li::before { color: #00ff9c; }
+.dark .prose-retro ul > li::before { color: #c8a44d; }
 .prose-retro ol { list-style: decimal; }
+.prose-retro ol::marker { color: #8b1d27; font-family: 'JetBrains Mono', ui-monospace, monospace; font-weight: 700; }
 .prose-retro li { margin-bottom: 0.4em; }
 
 .prose-retro blockquote {
-  border-left: 6px solid #ff3eb5;
-  background: rgba(255, 212, 0, 0.18);
-  padding: 1em 1.2em;
+  position: relative;
+  border-left: 2px solid #8b1d27;
+  background: rgba(200,164,77,0.10);
+  padding: 1em 1.2em 1em 2.4em;
   margin: 1.5em 0;
   font-style: italic;
+  color: #3a2f25;
+}
+.prose-retro blockquote::before {
+  content: ">";
+  position: absolute;
+  left: .7em; top: 1em;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 1.05em;
+  color: #8b1d27;
+  line-height: 1;
 }
 .dark .prose-retro blockquote {
-  border-left-color: #00ff9c;
-  background: rgba(0, 229, 255, 0.08);
+  border-left-color: #c8a44d;
+  background: rgba(106,76,171,0.10);
+  color: #e9e0c8;
 }
+.dark .prose-retro blockquote::before { color: #c8a44d; }
 
-/* Make rendered <pre> code blocks look like a CRT terminal */
+/* Code blocks become a wizard's terminal */
 .prose-retro pre,
 pre.highlight {
-  background: #0a0e1a !important;
-  color: #00ff9c !important;
-  border: 3px solid #0d0d12;
-  box-shadow: 6px 6px 0 0 #ff3eb5;
+  background: #07080d !important;
+  color: #57f287 !important;
+  border: 1px solid #c8a44d;
+  box-shadow:
+    inset 0 0 80px rgba(106,76,171,0.18),
+    0 0 22px rgba(87,242,135,0.18),
+    0 18px 40px -18px rgba(0,0,0,0.7);
   padding: 1rem 1.1rem;
   margin: 1.5em 0;
   overflow-x: auto;
-  font-family: 'VT323', ui-monospace, monospace;
-  font-size: 1.05rem;
-  line-height: 1.4;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.92rem;
+  line-height: 1.55;
   position: relative;
-}
-.dark .prose-retro pre,
-.dark pre.highlight {
-  box-shadow: 6px 6px 0 0 #00e5ff;
-  border-color: #00ff9c;
 }
 .prose-retro pre::before,
 pre.highlight::before {
-  content: "● TERMINAL — RUN.EXE";
+  content: "▒▓ ~/grimoire/spells $ cast";
   display: block;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 9px;
-  color: #ffd400;
-  letter-spacing: 2px;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-weight: 500;
+  font-size: .66rem;
+  color: #c8a44d;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   margin: -1rem -1.1rem 0.8rem;
-  padding: 6px 12px;
-  background: #0d0d12;
-  border-bottom: 2px solid #00ff9c;
+  padding: .55rem .9rem;
+  background: #0e0f17;
+  border-bottom: 1px solid #c8a44d;
+}
+.prose-retro pre::after,
+pre.highlight::after {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 3px,
+    rgba(87,242,135,0.04) 3px 4px
+  );
 }
 
 .prose-retro code,
 code:not(pre code) {
-  font-family: 'VT323', ui-monospace, monospace;
-  background: #ffd400;
-  color: #0d0d12;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  background: rgba(139,29,39,0.10);
+  color: #8b1d27;
   padding: 0 6px;
-  border: 2px solid #0d0d12;
-  font-size: 1em;
+  border: 1px solid rgba(139,29,39,0.35);
+  font-size: 0.92em;
+  border-radius: 3px;
 }
 .dark .prose-retro code,
 .dark code:not(pre code) {
-  background: #ff3eb5;
-  color: #0a0e1a;
-  border-color: #0a0e1a;
+  background: rgba(200,164,77,0.10);
+  color: #c8a44d;
+  border-color: rgba(200,164,77,0.4);
 }
 .prose-retro pre code,
 pre.highlight code {
@@ -391,17 +656,50 @@ pre.highlight code {
 
 .prose-retro hr {
   border: none;
-  margin: 2em 0;
+  margin: 2.2em 0;
   height: 14px;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='14' viewBox='0 0 40 14'><path d='M0 7 q5 -7 10 0 t10 0 t10 0 t10 0' fill='none' stroke='%23ff3eb5' stroke-width='3'/></svg>");
-  background-repeat: repeat-x;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='14' viewBox='0 0 160 14'><g fill='%238b1d27' font-family='JetBrains Mono, monospace' font-size='12' text-anchor='middle'><line x1='0' y1='7' x2='62' y2='7' stroke='%238b1d27' stroke-width='1' stroke-dasharray='3 3'/><text x='80' y='11'>// EOF //</text><line x1='98' y1='7' x2='160' y2='7' stroke='%238b1d27' stroke-width='1' stroke-dasharray='3 3'/></g></svg>");
+  background-repeat: no-repeat;
+  background-position: center;
 }
 .dark .prose-retro hr {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='14' viewBox='0 0 40 14'><path d='M0 7 q5 -7 10 0 t10 0 t10 0 t10 0' fill='none' stroke='%2300ff9c' stroke-width='3'/></svg>");
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='14' viewBox='0 0 160 14'><g fill='%23c8a44d' font-family='JetBrains Mono, monospace' font-size='12' text-anchor='middle'><line x1='0' y1='7' x2='62' y2='7' stroke='%23c8a44d' stroke-width='1' stroke-dasharray='3 3'/><text x='80' y='11'>// EOF //</text><line x1='98' y1='7' x2='160' y2='7' stroke='%23c8a44d' stroke-width='1' stroke-dasharray='3 3'/></g></svg>");
 }
 
 .prose-retro img {
-  border: 3px solid #0d0d12;
-  box-shadow: 6px 6px 0 0 #00e5ff;
+  border: 1px solid #1a1410;
+  box-shadow:
+    inset 0 0 0 4px #ebd9b3,
+    inset 0 0 0 5px #c8a44d,
+    0 18px 36px -16px rgba(20,12,6,0.55);
   margin: 1.5em 0;
 }
+.dark .prose-retro img {
+  border-color: #c8a44d;
+  box-shadow:
+    inset 0 0 0 4px #07080d,
+    inset 0 0 0 5px #c8a44d,
+    0 18px 36px -16px rgba(0,0,0,0.85);
+}
+
+.prose-retro table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.4em 0;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.86rem;
+}
+.prose-retro th, .prose-retro td {
+  border: 1px solid #1a1410;
+  padding: .55rem .8rem;
+  text-align: left;
+}
+.prose-retro th {
+  background: #c8a44d;
+  color: #1a1410;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+}
+.dark .prose-retro th { background: #2d1b3a; color: #c8a44d; border-color: #c8a44d; }
+.dark .prose-retro td { border-color: rgba(200,164,77,0.4); }

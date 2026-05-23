@@ -1,15 +1,9 @@
 <%
-  tag_palette = [
-    'bg-memphis-pink text-memphis-paper',
-    'bg-memphis-cyan text-memphis-ink',
-    'bg-memphis-yellow text-memphis-ink',
-    'bg-memphis-mint text-memphis-ink',
-    'bg-memphis-purple text-memphis-paper',
-    'bg-memphis-coral text-memphis-paper'
-  ]
+  seal_palette = %w[wax-seal-blood wax-seal-arcane wax-seal-ember wax-seal-phosphor wax-seal-gold wax-seal-ichor]
 %>
 <% post.tags.each do |tag| %>
-  <% color = tag_palette[tag.name.sum % tag_palette.length] %>
-  <%= link_to "##{tag.name}", tag_path(id: tag.name),
-      class: "tag-retro #{color}" %>
+  <% variant = seal_palette[tag.name.sum % seal_palette.length] %>
+  <%= link_to "#{tag.name}", tag_path(id: tag.name),
+      class: "wax-seal #{variant}",
+      title: "##{tag.name}" %>
 <% end %>
