@@ -7,41 +7,28 @@
 <% end %>
 
 <% content_for :rss_button do %>
-  <%= link_to tag_feed_path(id: @tag.name), class: "btn-icon-retro", aria: { label: "RSS Feed" } do %>
+  <%= link_to tag_feed_path(id: @tag.name), class: "p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors", aria: { label: "RSS Feed" } do %>
     <%= render "shared/icons/rss" %>
   <% end %>
 <% end %>
 
-<%
-  card_palettes = [
-    'shadow-retro-pink', 'shadow-retro-cyan', 'shadow-retro-yellow',
-    'shadow-retro-mint', 'shadow-retro-purple', 'shadow-retro-coral'
-  ]
-%>
-
-<div class="space-y-10">
-
-  <div class="bg-memphis-pink dark:bg-memphis-purple text-memphis-paper border-[3px] border-memphis-ink shadow-retro p-6 md:p-8 -rotate-1">
-    <p class="font-display text-[10px] uppercase tracking-widest text-memphis-yellow mb-2">// filter</p>
-    <h1 class="h-display-lg text-memphis-paper" style="text-shadow: 3px 3px 0 #0d0d12">
-      #<%= @tag.name %>
+<div class="space-y-8">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">
+      Posts tagged with "#<%= @tag.name %>"
     </h1>
-    <p class="font-mono text-xl mt-2">&gt; <%= pluralize(@posts.total_count, 'transmission') %> matched the query<span class="animate-blink">_</span></p>
   </div>
-
-  <% @posts.each_with_index do |post, idx| %>
-    <% shadow = card_palettes[(post.id || idx) % card_palettes.length] %>
-    <article class="bg-memphis-paper dark:bg-memphis-crt border-[3px] border-memphis-ink dark:border-memphis-mint <%= shadow %> p-6 md:p-8 animate-pop-in transition-transform duration-200 hover:-translate-x-1 hover:-translate-y-1">
-      <h2 class="h-display-md mb-3">
-        <%= link_to post.title, dated_post_path(year: post.year, day: post.day, month: post.month, id: post),
-            class: "hover:text-memphis-pink dark:hover:text-memphis-cyan transition-colors" %>
+  <% @posts.each do |post| %>
+    <article class="border-b border-gray-100 dark:border-gray-800 pb-8 last:border-b-0">
+      <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-2">
+        <%= link_to post.title, dated_post_path(year: post.year, day: post.day, month: post.month, id: post), class: "hover:text-gray-600 dark:hover:text-gray-300" %>
       </h2>
 
-      <time class="font-mono text-base text-memphis-purple dark:text-memphis-cyan mb-4 block">
-        &gt;&gt; <%= post.created_at.strftime('%Y-%m-%d') %>
+      <time class="text-sm text-gray-500 dark:text-gray-400 mb-4 block">
+        <%= post.created_at.strftime('%Y-%m-%d') %>
       </time>
 
-      <div class="font-sans text-memphis-ink dark:text-memphis-paper/90 leading-relaxed mb-4">
+      <div class="text-gray-900 dark:text-gray-100">
         <%= post.rendered_excerpt.html_safe %>
       </div>
 
@@ -49,18 +36,16 @@
         <%= render "shared/tags", post: post %>
       </div>
 
-      <div class="mt-4 flex items-center gap-3 flex-wrap">
+      <div class="mt-4">
         <% if authenticated? %>
-          <%= link_to "edit", edit_post_path(post), class: "font-mono text-base text-memphis-purple dark:text-memphis-cyan hover:underline" %>
-          <span class="font-mono text-memphis-ink/40 dark:text-memphis-mint/40">|</span>
+            <%= link_to "Edit", edit_post_path(post),
+                class: "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium" %>
+            |
         <% end %>
-        <%= link_to dated_post_path(year: post.year, day: post.day, month: post.month, id: post),
-            class: "btn-retro btn-retro-cyan" do %>
-          ▶ READ MORE
-        <% end %>
+        <%= link_to "Read more →", dated_post_path(year: post.year, day: post.day, month: post.month, id: post),
+            class: "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium" %>
       </div>
     </article>
   <% end %>
-
-  <div class="pt-4"><%= paginate @posts %></div>
-</div>
+  <%= paginate @posts %>
+ </div>

@@ -1,15 +1,4 @@
-<%
-  tag_palette = [
-    'bg-memphis-pink text-memphis-paper',
-    'bg-memphis-cyan text-memphis-ink',
-    'bg-memphis-yellow text-memphis-ink',
-    'bg-memphis-mint text-memphis-ink',
-    'bg-memphis-purple text-memphis-paper',
-    'bg-memphis-coral text-memphis-paper'
-  ]
-%>
 <% post.tags.each do |tag| %>
-  <% color = tag_palette[tag.name.sum % tag_palette.length] %>
-  <%= link_to "##{tag.name}", tag_path(id: tag.name),
-      class: "tag-retro #{color}" %>
+    <%= link_to "# #{tag.name}", tag_path(id: tag.name),
+        class: "px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors" %>
 <% end %>

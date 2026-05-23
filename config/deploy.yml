@@ -41,6 +41,14 @@ env:
   secret:
     - RAILS_MASTER_KEY
   clear:
+    # Active opt-in theme for enriquecanals.com. The theming system
+    # (config/initializers/themes.rb + app/controllers/concerns/theming.rb)
+    # falls back to "default" (minimal upstream abbey) when unset, so this
+    # env var is the single switch that puts the Memphis / 8-bit chrome on
+    # the live site. Set ABBEY_THEME=grimoire for the Matrix/dark-fantasy
+    # variant, or unset for the upstream-minimal look.
+    ABBEY_THEME: retro
+
     # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.
     # When you start using multiple servers, you should split out job processing to a dedicated machine.
     SOLID_QUEUE_IN_PUMA: true

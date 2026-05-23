@@ -1,25 +1,41 @@
 <% if authenticated? %>
-  <div class="fixed top-0 left-0 right-0 z-50 bg-memphis-ink text-memphis-mint border-b-[3px] border-memphis-pink shadow-retro-pink font-mono text-base">
-    <div class="container mx-auto px-4 max-w-5xl">
-      <div class="flex items-center justify-between h-10">
-        <div class="flex items-center gap-5">
-          <span class="font-display text-[9px] uppercase tracking-widest text-memphis-yellow">SYSOP&gt;</span>
-          <%= link_to "+ post",   new_post_path,    class: "hover:text-memphis-pink transition-colors" %>
-          <%= link_to "+ page",   new_page_path,    class: "hover:text-memphis-pink transition-colors" %>
-          <%= link_to "+ link",   new_link_path,    class: "hover:text-memphis-pink transition-colors" %>
-          <%= link_to "+ paper",  new_paper_path,   class: "hover:text-memphis-pink transition-colors" %>
-          <%= link_to "feeds",    feeds_path,       class: "hover:text-memphis-cyan transition-colors" %>
-          <%= link_to "read",     feed_posts_path,  class: "hover:text-memphis-cyan transition-colors" %>
+  <%# Adding bg-slate-800 for dark background + text-white for visible text %>
+    <div class="fixed top-0 left-0 right-0 w-full bg-gray-800">
+        <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-10">
+            <%# Admin actions - left side %>
+            <div class="flex space-x-4 text-sm">
+            <%= link_to new_post_path,
+                class: "text-white hover:text-gray-300 transition-colors" do %>
+                New Post
+            <% end %>
+            <%= link_to new_page_path,
+                class: "text-white hover:text-gray-300 transition-colors" do %>
+                New Page
+            <% end %>
+            <%= link_to new_link_path,
+                class: "text-white hover:text-gray-300 transition-colors" do %>
+                New Link
+            <% end %>
+            <%= link_to feeds_path,
+                class: "text-white hover:text-gray-300 transition-colors" do %>
+                Feeds
+            <% end %>
+            <%= link_to feed_posts_path,
+                class: "text-white hover:text-gray-300 transition-colors" do %>
+                Read
+            <% end %>
+            </div>
+
+            <%# User info and logout - right side %>
+            <div class="flex items-center space-x-4 text-sm">
+            <%= button_to session_path,
+                method: :delete,
+                class: "text-white hover:text-gray-300 transition-colors" do %>
+                Sign out
+            <% end %>
+            </div>
         </div>
-        <div class="flex items-center gap-3">
-          <span class="hidden sm:inline text-memphis-yellow text-sm">ONLINE<span class="animate-blink">▮</span></span>
-          <%= button_to session_path,
-              method: :delete,
-              class: "hover:text-memphis-pink transition-colors" do %>
-            logoff
-          <% end %>
         </div>
-      </div>
-    </div>
   </div>
 <% end %>

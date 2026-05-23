@@ -1,22 +1,7 @@
-<footer class="mt-auto content-layer">
-  <div class="marquee">
-    <div class="marquee__track">
-      ★ PRESS START ★ <%= Rails.application.config.site_name.upcase %> ★ EST. 2009 ★ INSERT COIN TO CONTINUE ★ 100% HAND-TYPED HTML ★ NO TRACKERS ★ READY P1<span class="ml-2 animate-blink">_</span> &nbsp;&nbsp;
-      ★ PRESS START ★ <%= Rails.application.config.site_name.upcase %> ★ EST. 2009 ★ INSERT COIN TO CONTINUE ★ 100% HAND-TYPED HTML ★ NO TRACKERS ★ READY P1<span class="ml-2 animate-blink">_</span> &nbsp;&nbsp;
-    </div>
-  </div>
-  <div class="bg-memphis-ink dark:bg-black text-memphis-paper border-t-[3px] border-memphis-ink">
-    <div class="container mx-auto px-4 py-6 max-w-5xl flex flex-col md:flex-row justify-between items-center gap-3">
-      <p class="font-mono text-lg">
-        <span class="text-memphis-mint">$</span>
-        echo "© <%= Time.current.year %> <%= Rails.application.config.site_name %>"
-        <span class="text-memphis-pink animate-blink">▮</span>
-      </p>
-      <p class="font-mono text-base text-memphis-cyan">
-        crafted on
-        <a href="https://github.com/EnriqueCanals/abbey" target="_new" class="text-memphis-yellow underline decoration-wavy decoration-memphis-pink underline-offset-2 hover:bg-memphis-pink hover:text-memphis-paper px-1">abbey</a>
-        · powered by ⚡ caffeine
-      </p>
+<footer class="mt-auto border-t border-gray-200 dark:border-gray-700">
+  <div class="container mx-auto px-4 py-6">
+    <div class="flex flex-col md:flex-row justify-between items-center text-sm text-gray-600 dark:text-gray-400">
+      <p>© <%= Time.current.year %> <%= Rails.application.config.site_name %>. All rights reserved.</p>
     </div>
   </div>
 </footer>
