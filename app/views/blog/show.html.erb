@@ -2,36 +2,39 @@
 <%= @post.title %> | <%= Rails.application.config.site_name %>
 <% end %>
 
-<%= link_to posts_path, class: "inline-flex items-center text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white mb-8" do %>
-    <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-    </svg>
-    Back to posts
+<%= link_to posts_path, class: "inline-flex items-center font-mono text-lg text-memphis-purple dark:text-memphis-cyan hover:text-memphis-pink dark:hover:text-memphis-mint mb-6" do %>
+  <span class="mr-2">◀</span> back to /posts
 <% end %>
 
-<article class="max-w-2xl mx-auto">
-    <header class="mb-8">
-        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            <%= @post.title %>
-        </h1>
-        
-        <div class="flex flex-col sm:flex-row sm:items-center text-gray-600 dark:text-gray-300 gap-4">
-            <time class="text-sm">
-            <%= @post.created_at.strftime("%Y-%m-%d") %>
-            </time>
-            <span class="hidden sm:block">·</span>
-            <% if authenticated? %>
-                <%= link_to "Edit", edit_post_path(@post), 
-                        class: "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium" %>
-            <% end %>
-        </div>
-    </header>
+<article class="max-w-3xl mx-auto bg-memphis-paper dark:bg-memphis-crt border-[3px] border-memphis-ink dark:border-memphis-mint shadow-retro-lg p-6 md:p-10 animate-pop-in">
 
-    <div class="text-gray-700 dark:text-gray-200 max-w-none mb-8 leading-relaxed">
-        <%= @post.rendered_body.html_safe %>
+  <header class="mb-8 border-b-[3px] border-dashed border-memphis-ink dark:border-memphis-mint pb-6">
+    <div class="inline-block bg-memphis-yellow text-memphis-ink border-[3px] border-memphis-ink px-3 py-1 font-display text-[10px] uppercase tracking-widest shadow-retro-sm mb-4 -rotate-2">
+      Post · <%= @post.created_at.strftime('%b %d, %Y') %>
     </div>
 
+    <h1 class="h-display-lg mb-4 cursor-blink">
+      <%= @post.title %>
+    </h1>
+
+    <div class="flex flex-col sm:flex-row sm:items-center font-mono text-lg text-memphis-purple dark:text-memphis-cyan gap-2 sm:gap-4">
+      <time>&gt; <%= @post.created_at.strftime("%Y-%m-%d") %></time>
+      <% if authenticated? %>
+        <span class="hidden sm:inline">·</span>
+        <%= link_to "edit ▸", edit_post_path(@post),
+                class: "text-memphis-pink dark:text-memphis-mint hover:underline" %>
+      <% end %>
+    </div>
+  </header>
+
+  <div class="prose-retro max-w-none mb-10">
+    <%= @post.rendered_body.html_safe %>
+  </div>
+
+  <div class="border-t-[3px] border-dashed border-memphis-ink dark:border-memphis-mint pt-6">
+    <p class="font-display text-[10px] uppercase tracking-widest text-memphis-purple dark:text-memphis-cyan mb-3">// tagged_with</p>
     <div class="flex flex-wrap gap-2">
-        <%= render "shared/tags", post: @post %>
+      <%= render "shared/tags", post: @post %>
     </div>
+  </div>
 </article>

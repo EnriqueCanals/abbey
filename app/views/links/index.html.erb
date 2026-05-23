@@ -3,7 +3,7 @@
 <% end %>
 
 <% content_for :rss_button do %>
-  <%= link_to links_feed_path, class: "p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors", aria: { label: "RSS Feed" } do %>
+  <%= link_to links_feed_path, class: "btn-icon-retro", aria: { label: "RSS Feed" } do %>
     <%= render "shared/icons/rss" %>
   <% end %>
 <% end %>
@@ -12,15 +12,17 @@
 Interesting Links | <%= Rails.application.config.site_name %>
 <% end %>
 
-<div class="max-w-2xl mx-auto">
-  <header class="mb-8">
-    <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+<div class="max-w-3xl mx-auto">
+  <header class="mb-8 bg-memphis-cyan dark:bg-memphis-purple text-memphis-ink dark:text-memphis-paper border-[3px] border-memphis-ink shadow-retro p-6 rotate-1">
+    <p class="font-display text-[10px] uppercase tracking-widest text-memphis-pink dark:text-memphis-yellow mb-2">// bookmarks</p>
+    <h1 class="h-display-lg" style="text-shadow: 3px 3px 0 #0d0d12">
       Interesting Links
     </h1>
+    <p class="font-mono text-xl mt-2">&gt; stuff worth your eyeballs<span class="animate-blink">_</span></p>
   </header>
 
-  <div class="space-y-8">
+  <div class="space-y-6">
     <%= render @links %>
   </div>
-  <%= paginate @links %>
+  <div class="pt-4"><%= paginate @links %></div>
 </div>
