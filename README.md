@@ -4,6 +4,12 @@
 
 Minimal blog using Rails 8, designed to be easily [self-hosted on AWS](https://github.com/capotej/abbey?tab=readme-ov-file#deploying-to-aws).
 
+> **This fork (`EnriqueCanals/abbey`) powers [enriquecanals.com](https://enriquecanals.com).**
+> The live site runs the `retro` Memphis / 8-bit theme via `ABBEY_THEME=retro`
+> (set in `config/deploy.yml`). The `default` theme keeps the upstream-minimal
+> look; `grimoire` ships the Matrix-style dark-fantasy variant. All themes are
+> opt-in — see [Themes](#themes).
+
 # Features
 
 * Light/Dark mode
