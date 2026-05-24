@@ -8,7 +8,12 @@ module Rendering
 
   included do
     def render(text)
-      processed_markdown = Redcarpet::Markdown.new(self.class.markdown_renderer, fenced_code_blocks: true).render(text)
+      processed_markdown = Redcarpet::Markdown.new(
+        self.class.markdown_renderer,
+        fenced_code_blocks: true,
+        tables: true,
+        no_intra_emphasis: true
+      ).render(text)
 
       # Replace signed IDs with img tags, handling both href and src attributes
       processed_markdown.gsub!(/(href|src)="(.*?)"/) do |match|
