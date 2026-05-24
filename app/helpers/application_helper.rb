@@ -9,6 +9,79 @@ module ApplicationHelper
     super.reject { |path| path.to_s.start_with?("themes/") }
   end
 
+  # Emit a block of <meta> + <link rel="canonical"> tags suitable for
+  # link previews on Slack, iMessage, Telegram, LinkedIn, X/Twitter,
+  # Facebook, Discord, etc.
+  #
+  # Called once from each layout's <head>; individual show templates can
+  # override per-page values by wrapping their own call in
+  #   <% content_for :meta do %><%= meta_tags(title:, description:, …) %><% end %>
+  #
+  # Options (all optional, fall back to site_settings.rb defaults):
+  #   title:          page title (without site_name suffix)
+  #   description:    short one-or-two-sentence summary
+  #   image:          absolute URL or /public path for og:image
+  #   url:            canonical URL (defaults to request.path on current host)
+  #   type:           OG type: "website" (default), "article", "profile", …
+  #   author:         override site_author (article author byline)
+  #   published_time: ISO 8601 timestamp for article:published_time
+  #   updated_time:   ISO 8601 timestamp for article:modified_time
+  #   tags:           Array<String> of article:tag values
+  def meta_tags(opts = {})
+    cfg = Rails.application.config
+    page_title  = opts[:title].presence
+    description = sanitize_meta_description(opts[:description].presence || cfg.try(:site_description))
+    image_src   = opts[:image].presence || cfg.try(:site_image).presence
+    image_url   = image_src && absolute_meta_url(image_src)
+    canonical   = opts[:url].presence || default_canonical_url
+    og_type     = opts[:type].presence || "website"
+    site_name   = cfg.site_name
+    author      = opts[:author].presence || cfg.try(:site_author).presence
+    twitter_h   = cfg.try(:site_twitter).presence
+    og_title    = page_title || site_name
+    twitter_card = image_url ? "summary_large_image" : "summary"
+
+    parts = []
+
+    # Standard
+    parts << tag.meta(name: "description", content: description) if description
+    parts << tag.meta(name: "author",      content: author)      if author
+    parts << tag.link(rel:  "canonical",   href: canonical)      if canonical
+
+    # Open Graph (Facebook, LinkedIn, Slack, iMessage, Telegram, Discord)
+    parts << tag.meta(property: "og:site_name", content: site_name)
+    parts << tag.meta(property: "og:title",     content: og_title)
+    parts << tag.meta(property: "og:type",      content: og_type)
+    parts << tag.meta(property: "og:url",       content: canonical)   if canonical
+    parts << tag.meta(property: "og:description", content: description) if description
+    parts << tag.meta(property: "og:locale",    content: cfg.try(:site_locale) || "en_US")
+    if image_url
+      parts << tag.meta(property: "og:image",        content: image_url)
+      parts << tag.meta(property: "og:image:alt",    content: og_title)
+    end
+
+    # Article-specific OG
+    if og_type == "article"
+      parts << tag.meta(property: "article:published_time", content: opts[:published_time]) if opts[:published_time].present?
+      parts << tag.meta(property: "article:modified_time",  content: opts[:updated_time])   if opts[:updated_time].present?
+      parts << tag.meta(property: "article:author",         content: author)                 if author
+      Array(opts[:tags]).each do |tag_name|
+        parts << tag.meta(property: "article:tag", content: tag_name.to_s)
+      end
+    end
+
+    # Twitter Card
+    parts << tag.meta(name: "twitter:card",        content: twitter_card)
+    parts << tag.meta(name: "twitter:title",       content: og_title)
+    parts << tag.meta(name: "twitter:description", content: description) if description
+    parts << tag.meta(name: "twitter:image",       content: image_url)   if image_url
+    parts << tag.meta(name: "twitter:image:alt",   content: og_title)    if image_url
+    parts << tag.meta(name: "twitter:site",        content: twitter_h)   if twitter_h
+    parts << tag.meta(name: "twitter:creator",     content: twitter_h)   if twitter_h
+
+    safe_join(parts, "\n")
+  end
+
   # Returns the names of any extra stylesheets that the active theme ships
   # under `app/assets/stylesheets/themes/`. The default theme contributes
   # nothing extra; other themes load `themes/<name>.css` and (if present)
@@ -24,6 +97,47 @@ module ApplicationHelper
   end
 
   private
+
+  # Strip light markdown markers (headings, emphasis, code fences, links,
+  # blockquotes), inline HTML tags, collapse whitespace, and truncate.
+  # Post excerpts and page bodies often contain raw markdown / inline
+  # HTML that looks awful in a link preview ("__Aug 1__ ## Step 1: ..."
+  # → "Aug 1 Step 1: ..."). Truncates to 280 chars (Slack/Telegram/X all
+  # clip around this length).
+  def sanitize_meta_description(text)
+    return nil if text.blank?
+    # Decode entities first so any escaped HTML (e.g. `&lt;br/&gt;`
+    # stored verbatim in a page body) becomes real `<...>` and gets
+    # stripped by the tag regex below.
+    cleaned = CGI.unescapeHTML(text.to_s)
+                 .gsub(/```.*?```/m, "")                        # fenced code blocks
+                 .gsub(/<[^>]+>/, " ")                          # inline HTML tags
+                 .gsub(/`[^`]+`/, "")                           # inline code
+                 .gsub(/!\[([^\]]*)\]\([^)]+\)/, '\1')          # ![alt](url) -> alt
+                 .gsub(/\[([^\]]+)\]\([^)]+\)/, '\1')           # [text](url) -> text
+                 .gsub(/^[>\s]+/, "")                           # blockquote markers
+                 .gsub(/[#*_~]+/, "")                           # heading/emphasis chars
+                 .squish
+    cleaned.length > 280 ? cleaned[0, 277] + "..." : cleaned.presence
+  end
+
+  # Resolve `path` to an absolute URL. Pass-through if already absolute.
+  # Used for og:image so previews work when the page is fetched by a
+  # remote scraper (which can't follow `/og.png` style relative paths).
+  def absolute_meta_url(path)
+    return path if path =~ %r{\Ahttps?://}i
+    return path unless request
+
+    base = "#{request.protocol}#{request.host_with_port}"
+    "#{base}#{path.to_s.start_with?("/") ? path : "/#{path}"}"
+  end
+
+  # Canonical URL for the current request, query string stripped (so
+  # ?ref=… utm_*=… don't pollute the canonical / og:url).
+  def default_canonical_url
+    return nil unless request
+    "#{request.protocol}#{request.host_with_port}#{request.path}"
+  end
 
   def theme_stylesheet_exists?(logical_name)
     Rails.application.assets&.load_path&.find("#{logical_name}.css").present? ||
