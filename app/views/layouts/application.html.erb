@@ -7,6 +7,10 @@
     <meta name="mobile-web-app-capable" content="yes">
     <%= stylesheet_link_tag "highlight" %>
 
+    <%# Per-page OG / Twitter / canonical meta tags (link previews).
+        Show templates can override values via `content_for :meta`. %>
+    <%= content_for?(:meta) ? content_for(:meta) : meta_tags %>
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 

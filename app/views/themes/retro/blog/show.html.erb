@@ -2,6 +2,17 @@
 <%= @post.title %> | <%= Rails.application.config.site_name %>
 <% end %>
 
+<% content_for :meta do %>
+  <%= meta_tags(
+    title:          @post.title,
+    description:    @post.markdown_excerpt,
+    type:           "article",
+    published_time: @post.created_at.iso8601,
+    updated_time:   @post.updated_at.iso8601,
+    tags:           @post.tags.pluck(:name)
+  ) %>
+<% end %>
+
 <%= link_to posts_path, class: "inline-flex items-center font-mono text-lg text-memphis-purple dark:text-memphis-cyan hover:text-memphis-pink dark:hover:text-memphis-mint mb-6" do %>
   <span class="mr-2">◀</span> Back to posts
 <% end %>

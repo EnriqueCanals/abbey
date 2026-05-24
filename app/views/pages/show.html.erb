@@ -2,6 +2,13 @@
 <%= @page.title %> | <%= Rails.application.config.site_name %>
 <% end %>
 
+<% content_for :meta do %>
+  <%# `meta_tags` runs `sanitize_meta_description` on the value, so it is
+      safe to hand the raw markdown body — markers, HTML tags, links, and
+      code fences are stripped and the result is truncated for previews. %>
+  <%= meta_tags(title: @page.title, description: @page.markdown_body) %>
+<% end %>
+
 <article class="max-w-2xl mx-auto">
     <header class="mb-8">
         <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">

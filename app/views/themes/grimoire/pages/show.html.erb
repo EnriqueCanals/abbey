@@ -2,6 +2,13 @@
 <%= @page.title %> | <%= Rails.application.config.site_name %>
 <% end %>
 
+<% content_for :meta do %>
+  <%# `meta_tags` runs `sanitize_meta_description` on the value, so it is
+      safe to hand the raw markdown body — markers, HTML tags, links, and
+      code fences are stripped and the result is truncated for previews. %>
+  <%= meta_tags(title: @page.title, description: @page.markdown_body) %>
+<% end %>
+
 <article class="tome max-w-3xl mx-auto relative">
   <div class="absolute -top-3 -left-2 bg-grim-ichor dark:bg-grim-obsidian/60 text-grim-bone border border-grim-gold px-2 py-1 font-plex text-[0.62rem] tracking-[0.2em] uppercase">
     ✦ Chapter · <%= @page.slug %>
