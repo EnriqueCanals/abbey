@@ -70,6 +70,66 @@ class ThemesTest < ActionDispatch::IntegrationTest
                  "grimoire theme should switch to the minimal renderer"
   end
 
+  test "meta_tags renders site defaults on the index" do
+    get root_path
+    assert_response :success
+    body = response.body
+
+    assert_match %r{<meta property="og:site_name" content="Enrique Canals"}, body
+    assert_match %r{<meta property="og:title" content="Enrique Canals"},     body
+    assert_match %r{<meta property="og:type" content="website"},             body
+    assert_match %r{<meta property="og:url" content="http://},               body
+    assert_match %r{<meta property="og:description" content="Field notes from over 20 years on the web\.}, body
+    assert_match %r{<meta name="twitter:card" content="summary"},            body
+    assert_match %r{<link rel="canonical" href="http://},                    body
+    assert_no_match %r{<meta property="article:},                             body, "index should not emit article:* tags"
+  end
+
+  test "meta_tags renders article-specific tags on a blog post" do
+    post_record = posts(:hello_world)
+    get dated_post_path(year: post_record.year, month: post_record.month, day: post_record.day, id: post_record.slug)
+    assert_response :success
+    body = response.body
+
+    assert_match %r{<meta property="og:type" content="article"},                       body
+    assert_match %r{<meta property="og:title" content="Hello World"},                  body
+    assert_match %r{<meta property="og:description" content="Welcome to the blog\."},  body
+    assert_match %r{<meta property="article:published_time" content="\d{4}-\d{2}-\d{2}T}, body
+    assert_match %r{<meta property="article:author" content="Enrique Canals"},          body
+    assert_match %r{<meta name="twitter:title" content="Hello World"},                  body
+    canonical_url = "/blog/#{post_record.year}/#{format('%02d', post_record.month)}/#{format('%02d', post_record.day)}/#{post_record.slug}"
+    assert_match %r{<meta property="og:url" content="http://[^"]+#{Regexp.escape(canonical_url)}"}, body
+  end
+
+  test "meta_tags strips markdown markers from page bodies for description" do
+    # Page#before_create assigns slug from title; pass title only.
+    page = Page.create!(
+      title: "Mixed Markdown Page",
+      markdown_body: "## Heading\n\nThis page has __bold__, `inline code`, [a link](https://example.com), <br/> and an entity &lt;br/&gt;."
+    )
+    get "/p/#{page.slug}"
+    assert_response :success
+    body = response.body
+
+    desc_match = body.match(/<meta name="description" content="([^"]+)"/)
+    assert desc_match, "expected a description meta tag"
+    desc = desc_match[1]
+
+    refute_match %r{[#*_~`]}, desc, "description should have no leftover markdown markers"
+    refute_match %r{<[^>]+>}, desc, "description should have no raw HTML tags"
+    refute_match %r{&lt;|&gt;}, desc, "description should have no leftover escaped HTML entities"
+    assert_includes desc, "Heading"
+    assert_includes desc, "bold"
+    assert_includes desc, "a link"
+  end
+
+  test "meta_tags emits twitter:card summary when no site_image is configured" do
+    get root_path
+    assert_response :success
+    assert_match %r{<meta name="twitter:card" content="summary">}, response.body
+    assert_no_match %r{<meta property="og:image"},                 response.body
+  end
+
   test "theme_stylesheets helper is empty for default and populated for named themes" do
     helper = Class.new do
       include ApplicationHelper
