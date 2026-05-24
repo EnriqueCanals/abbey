@@ -490,7 +490,7 @@ html.theme-retro.dark ::selection {
 .theme-retro .prose-retro h3 { font-size: 0.95rem; color: #00a3cc; }
 
 .theme-retro.dark .prose-retro h1 { color: #00ff9c; text-shadow: 3px 3px 0 #ff3eb5; }
-.theme-retro.dark .prose-retro h2 { color: #ffd400; text-shadow: 2px 2px 0 #b14aff; }
+.theme-retro.dark .prose-retro h2 { color: #ffd400; text-shadow: 2px 2px 0 #0d0d12; }
 .theme-retro.dark .prose-retro h3 { color: #00e5ff; }
 
 .theme-retro .prose-retro p { margin-bottom: 1.1em; }
