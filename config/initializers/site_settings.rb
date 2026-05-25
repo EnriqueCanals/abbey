@@ -22,4 +22,8 @@ Rails.application.config.site_twitter = nil
 # Default Open Graph image. Should be an absolute URL or a path under
 # /public (resolved to absolute by the helper). Leave nil to fall back to
 # Twitter `summary` (text-only) card. 1200x630 PNG/JPG recommended.
-Rails.application.config.site_image = nil
+#
+# og-default.png is a 1200x630 branding card used whenever a page or post
+# does not supply its own image. Required by iMessage LinkPresentation and
+# most other link-unfurl scrapers (Slack, Telegram, LinkedIn, Discord).
+Rails.application.config.site_image = "/og-default.png"
