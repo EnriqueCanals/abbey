@@ -139,8 +139,8 @@ module ApplicationHelper
   # blockquotes), inline HTML tags, collapse whitespace, and truncate.
   # Post excerpts and page bodies often contain raw markdown / inline
   # HTML that looks awful in a link preview ("__Aug 1__ ## Step 1: ..."
-  # → "Aug 1 Step 1: ..."). Truncates to 280 chars (Slack/Telegram/X all
-  # clip around this length).
+  # → "Aug 1 Step 1: ..."). Truncates to 155 chars (optimal for iMessage/OG preview tester,
+  # Slack, Telegram, X all handle up to 200 but 155 is the safe cross-platform max).
   def sanitize_meta_description(text)
     return nil if text.blank?
     # Decode entities first so any escaped HTML (e.g. `&lt;br/&gt;`
@@ -155,7 +155,7 @@ module ApplicationHelper
                  .gsub(/^[>\s]+/, "")                           # blockquote markers
                  .gsub(/[#*_~]+/, "")                           # heading/emphasis chars
                  .squish
-    cleaned.length > 280 ? cleaned[0, 277] + "..." : cleaned.presence
+    cleaned.length > 155 ? cleaned[0, 152] + "..." : cleaned.presence
   end
 
   # Resolve `path` to an absolute URL. Pass-through if already absolute.
