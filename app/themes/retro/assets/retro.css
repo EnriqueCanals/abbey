@@ -485,7 +485,7 @@ html.theme-retro.dark ::selection {
 }
 .theme-retro .prose-retro pre::before,
 .theme-retro pre.highlight::before {
-  content: "● TERMINAL — RUN.EXE";
+  content: "● TERMINAL";
   display: block;
   font-family: var(--font-display);
   font-size: 9px;
